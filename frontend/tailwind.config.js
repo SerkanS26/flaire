@@ -19,6 +19,10 @@ export default {
         "custom-1200": "1200px",
         "custom-900": "900px",
       },
+      fontFamily: {
+        poppins: ["Poppins", "sans-serif"],
+        playfair: ["Playfair Display", "serif"],
+      },
     },
   },
   plugins: [],
