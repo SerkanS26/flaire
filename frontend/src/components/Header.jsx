@@ -8,7 +8,7 @@ const Header = () => {
 
   return (
     <section className="">
-      <nav className="max-w-[1400px] mx-auto px-4 text-primary-dark">
+      <nav className="container mx-auto px-4 text-primary-dark">
         <div className=" flex justify-between items-center max-lg:px-2">
           {/* Left Menu */}
           <div className=" max-lg:hidden flex justify-between items-center gap-6 text-xl font-poppins p-2 font-medium">

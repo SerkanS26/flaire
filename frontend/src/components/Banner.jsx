@@ -7,7 +7,9 @@ const Banner = () => {
     >
       <div className="header__content mx-auto text-center px-3 lg:text-left">
         <h4 className="text-primary capitalize pt-4">up to 30% discount on </h4>
-        <h1 className="">Discover the elegance of flaire</h1>
+        <h1 className="text-6xl md:text-7xl">
+          Discover the elegance of flaire
+        </h1>
         <p>
           Step into a world of style and sophistication with our exclusive
           collection of women&apos;s bags. Each piece is meticulously designed

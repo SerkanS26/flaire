@@ -5,6 +5,16 @@ const HomeScreen = () => {
   return (
     <>
       <Banner />
+      <div className="container mx-auto text-center my-16">
+        <h4 className="capitalize text-4xl font-semibold text-gray-700">
+          Discover Your Next Favorite Bag
+        </h4>
+        <p className="w-96  font-poppins text-center mx-auto mt-3 text-gray-600 md:w-[500px]">
+          Explore our curated selection of stylish and functional women&apos;s
+          bags. From elegant totes to chic clutches, find the perfect accessory
+          to elevate your look.
+        </p>
+      </div>
       <HomeProductCard
         bg="bg-[#F1F1F1]"
         img="/images/lacoste-blue.png"

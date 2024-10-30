@@ -6,7 +6,7 @@ const HomeProductCard = ({ bg, order, img, name, description }) => {
      `}
     >
       {/* left */}
-      <div className={`${order}`}>
+      <div className={`${order} md:order-first`}>
         <img
           className={`object-cover lg:h-96 lg:w-96  h-52 w-52 mx-auto rounded-2xl`}
           src={img}
@@ -15,8 +15,12 @@ const HomeProductCard = ({ bg, order, img, name, description }) => {
       </div>
       {/* right */}
       <div className="flex flex-col justify-center items-center ">
-        <h2 className="text-3xl font-semibold text-[#555573]">{name}</h2>
-        <p className="text-md text-gray-600 mt-3 text-center">{description}</p>
+        <h2 className="font-semibold text-xl text-center text-[#555573] md:text-2xl lg:text-3xl">
+          {name}
+        </h2>
+        <p className=" text-base text-gray-600 mt-3  text-left md:text-lg">
+          {description}
+        </p>
         <button className="btn mt-4">Add to Cart</button>
       </div>
     </div>
