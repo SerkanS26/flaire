@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 const HomeProductCard = ({ bg, order, img, name, description }) => {
   return (
     <div
@@ -21,7 +23,9 @@ const HomeProductCard = ({ bg, order, img, name, description }) => {
         <p className=" text-base text-gray-600 mt-3  text-left md:text-lg">
           {description}
         </p>
-        <button className="btn mt-4">Add to Cart</button>
+        <Link to="" className="btn mt-4">
+          View Product
+        </Link>
       </div>
     </div>
   );
