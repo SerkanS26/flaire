@@ -1,9 +1,25 @@
+import { useEffect, useState } from "react";
+import axios from "axios";
+
+// Components
 import Banner from "../components/Banner";
 import HomeProductCard from "../components/HomeProductCard";
-import products from "../products";
 import Product from "../components/Product";
 
 const HomeScreen = () => {
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      const { data } = await axios.get("/api/products");
+      setProducts(data);
+    };
+
+    fetchProducts();
+  }, []);
+
+  console.log(products);
+
   return (
     <>
       <Banner />

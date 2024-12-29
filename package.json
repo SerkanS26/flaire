@@ -1,0 +1,32 @@
+{
+  "name": "flaire",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "WebShop application built with the MERN stack",
+  "main": "server.js",
+  "scripts": {
+    "start": "node backend/server.js",
+    "server": "nodemon backend/server.js",
+    "client": "npm run dev --prefix frontend",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "dev-linux": " npm run server & npm run client"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SerkanS26/flaire.git"
+  },
+  "author": "Serkan Safran",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/SerkanS26/flaire/issues"
+  },
+  "homepage": "https://github.com/SerkanS26/flaire#readme",
+  "dependencies": {
+    "express": "^4.21.2"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.1",
+    "dotenv": "^16.4.7",
+    "nodemon": "^3.1.9"
+  }
+}
