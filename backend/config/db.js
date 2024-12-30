@@ -4,9 +4,9 @@ import colors from "colors";
 const conntectDB = async () => {
   try {
     const conn = await mongoose.connect(process.env.MONGO_URI);
-    console.log(`MongoDB Connected successfully!`.bgGreen.bold);
+    console.log(`MongoDB Connected successfully!`.bgCyan.bold.italic);
   } catch (error) {
-    console.log(`Error: ${error.message}.`.red.underline.bold);
+    console.log(`Error: ${error.message}.`.red.bold.inverse);
     process.exit(1);
   }
 };
