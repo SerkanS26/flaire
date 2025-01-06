@@ -1,6 +1,5 @@
 const products = [
   {
-    _id: "1",
     name: "Lacoste Blue Leather Tote Bag",
     image: "/images/lacoste-blue.png",
     description:
@@ -13,7 +12,6 @@ const products = [
     numReviews: 12,
   },
   {
-    _id: "2",
     name: "BOSS Leather Tote Bag",
     image: "/images/boss-black.png",
     description:
@@ -26,7 +24,6 @@ const products = [
     numReviews: 8,
   },
   {
-    _id: "3",
     name: "Green Straw Shoulder Bag",
     image: "/images/green-bag.jpg",
     description:
@@ -39,7 +36,6 @@ const products = [
     numReviews: 12,
   },
   {
-    _id: "4",
     name: "Tan Brown Messenger Style Backpack",
     image: "/images/brown-backpack.jpg",
     description:
@@ -52,7 +48,6 @@ const products = [
     numReviews: 12,
   },
   {
-    _id: "5",
     name: "Ted Baker Pink Nikicon Knot Bow Small Icon Bag",
     image: "/images/pink-bag.jpg",
     description:
@@ -65,7 +60,6 @@ const products = [
     numReviews: 10,
   },
   {
-    _id: "6",
     name: "Oliver Bonas Black Leopard Print Strap Simen Cross-Body Bag",
     image: "/images/oliver-bonas.jpg",
     description:

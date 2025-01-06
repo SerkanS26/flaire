@@ -12,13 +12,14 @@ const HomeScreen = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       const { data } = await axios.get("/api/products");
-      setProducts(data);
+      const randomProducts = await data.sort(
+        () => Math.random() - Math.random()
+      );
+      setProducts(randomProducts.slice(0, 3));
     };
 
     fetchProducts();
   }, []);
-
-  console.log(products);
 
   return (
     <>
@@ -56,10 +57,10 @@ const HomeScreen = () => {
       />
       <div className="container mx-auto my-16 bg-[#F1F1F1] p-4">
         <h1 className="text-center font-poppins my-6 text-[#555573] font-semibold text-4xl capitalize">
-          Latest Product
+          Current Favorites
         </h1>
 
-        <div className=" grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        <div className=" grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
           {products.map((product) => (
             <Product key={product._id} product={product} />
           ))}

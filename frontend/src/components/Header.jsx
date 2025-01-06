@@ -4,7 +4,6 @@ import { FaUser, FaShoppingBag, FaAlignRight, FaTimes } from "react-icons/fa";
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
-  console.log(isOpen);
 
   return (
     <section className="">
