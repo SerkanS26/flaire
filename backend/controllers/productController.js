@@ -10,6 +10,17 @@ const getProducts = asyncHandler(async (req, res) => {
   res.json(products);
 });
 
+// @desc    Fetch random products (3)
+// @route   GET /api/products/random
+// @access  Public
+const getRandomProducts = asyncHandler(async (req, res) => {
+  const products = await Product.find({});
+  const randomProducts = products
+    .sort(() => Math.random() - Math.random())
+    .slice(0, 3);
+  res.json(randomProducts);
+});
+
 // @desc    Fetch single product
 // @route   GET /api/products/:id
 // @access  Public
@@ -24,4 +35,4 @@ const getProductById = asyncHandler(async (req, res) => {
   }
 });
 
-export { getProducts, getProductById };
+export { getProducts, getProductById, getRandomProducts };

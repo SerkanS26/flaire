@@ -5,9 +5,11 @@ const router = expres.Router();
 import {
   getProductById,
   getProducts,
+  getRandomProducts,
 } from "../controllers/productController.js";
 
 router.route("/").get(getProducts);
+router.route("/random").get(getRandomProducts);
 router.route("/:id").get(getProductById);
 
 export default router;
