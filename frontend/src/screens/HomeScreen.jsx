@@ -3,6 +3,7 @@ import Banner from "../components/Banner";
 import HomeProductCard from "../components/HomeProductCard";
 import Product from "../components/Product";
 import Spinner from "../components/Spinner";
+import Message from "../components/Message";
 
 // redux query
 import { useGetRandomProductsQuery } from "../slices/productApiSlice";
@@ -15,7 +16,9 @@ const HomeScreen = () => {
       {isLoading ? (
         <Spinner loading={isLoading} />
       ) : error ? (
-        <div>{error?.data?.message || error?.error}</div>
+        <Message variant="danger">
+          {error?.data?.message || error?.error}
+        </Message>
       ) : (
         <>
           <Banner />
