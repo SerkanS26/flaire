@@ -1,9 +1,17 @@
 // redux query
 import { useGetProductDetailsQuery } from "../slices/productApiSlice";
 
+//slices
+import { addToCart } from "../slices/cartSlice";
+
+import { useState } from "react";
+
 // react-router-dom
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+
+// redux
+import { useDispatch } from "react-redux";
 
 // Components
 import Rating from "../components/Rating";
@@ -12,11 +20,22 @@ import Message from "../components/Message";
 
 const ProductScreen = () => {
   const { id: productId } = useParams();
+  const dispatch = useDispatch();
+
+  const navigate = useNavigate();
+
+  const [qty, setQty] = useState(1);
+
   const {
     data: product,
     isLoading,
     error,
   } = useGetProductDetailsQuery(productId);
+
+  const addToCartHandler = () => {
+    dispatch(addToCart({ ...product, qty }));
+    navigate("/cart");
+  };
 
   return (
     <>
@@ -71,29 +90,34 @@ const ProductScreen = () => {
                       {product.price}€
                     </span>
                   </div>
-                  <div className="flex justify-around border border-primary p-2 rounded-md">
+                  <div className="flex justify-around w-full border border-primary p-2 rounded-md">
                     <span className="text-gray-700 font-semibold">Status:</span>
                     <span className="text-gray-700 font-semibold">
                       {product.countInStock > 0 ? "In Stock" : "Out of Stock"}
                     </span>
                   </div>
                   {/* QTY */}
-                  {/* <div className="flex gap-4">
-                <span className="text-gray-700 font-semibold">Qty:</span>
-                <select
-                  className="w-16 p-2"
-                  value={product.qty}
-                  onChange={(e) => {
-                    console.log(e.target.value);
-                  }}
-                >
-                  {[...Array(product.countInStock).keys()].map((x) => (
-                    <option key={x + 1} value={x + 1}>
-                      {x + 1}
-                    </option>
-                  ))}
-                </select>
-              </div> */}
+                  {product.countInStock > 0 && (
+                    <div className="flex justify-around  w-full border border-primary p-2 rounded-md">
+                      <span className="text-gray-700 font-semibold">Qty:</span>
+                      <select
+                        value={qty}
+                        onChange={(e) => setQty(Number(e.target.value))}
+                        className="w-24 px-2 border text-primary-dark bg-slate-200 border-primary rounded-md focus:outline-primary-dark  "
+                      >
+                        {[...Array(product.countInStock).keys()].map((x) => (
+                          <option
+                            key={x + 1}
+                            value={x + 1}
+                            className="text-primary-dark font-semibold"
+                          >
+                            {x + 1}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  )}
+
                   <div>
                     <button
                       className={`bg-primary text-white font-medium p-2 rounded-md w-full disabled:opacity-50 hover:${
@@ -101,6 +125,7 @@ const ProductScreen = () => {
                       } transition-all`}
                       type="button"
                       disabled={product.countInStock === 0}
+                      onClick={addToCartHandler}
                     >
                       Add to Cart
                     </button>
