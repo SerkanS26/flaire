@@ -44,7 +44,7 @@ html {
 
 .header__content h1 {
   font-weight: 800;
-  font-family: var(--header-font);
+  /* font-family: var(--header-font); */
   margin-top: 1rem;
   margin-bottom: 1rem;
   line-height: 1.1;

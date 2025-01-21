@@ -46,7 +46,7 @@ const ProductScreen = () => {
           {error?.data?.message || error?.error}
         </Message>
       ) : (
-        <div className="container mx-auto my-16 font-poppins">
+        <div className="container mx-auto my-16">
           <Link to="/" className="btn ml-4">
             Go Back
           </Link>

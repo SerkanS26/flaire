@@ -20,8 +20,10 @@ export default {
         "custom-900": "900px",
       },
       fontFamily: {
-        poppins: ["Poppins", "sans-serif"],
-        playfair: ["Playfair Display", "serif"],
+        sans: ["Poppins", "sans-serif"],
+      },
+      gridTemplateColumns: {
+        "70/30": "70% 28%",
       },
     },
   },
