@@ -36,6 +36,7 @@ const HomeScreen = () => {
             bg="bg-[#F1F1F1]"
             img="/images/lacoste-blue.png"
             name="Lacoste Blue Leather Tote Bag"
+            url="/product/677c70839de18a73bf2a15ac"
             description="Elevate your style with this elegant blue leather tote bag from
           Lacoste. Crafted from premium leather, this bag exudes sophistication
           and durability. The smooth texture and minimalist design make it both
@@ -51,6 +52,7 @@ const HomeScreen = () => {
             order="order-last"
             img="/images/boss-black.png"
             name="BOSS Leather Tote Bag"
+            url="/product/677c70839de18a73bf2a15ad"
             description="Make a bold statement with the sleek and elegant BOSS Leather Tote Bag. Crafted from premium leather, this black tote embodies sophistication and modern style. Its minimalistic design features the embossed BOSS branding on the front, adding a touch of luxury to any ensemble.The sturdy handles ensure comfort and durability, making it perfect for both professional and casual settings. Whether you're headed to the office, a meeting, or a day out, this bag is designed to complement your look with an air of confidence and refinement.Upgrade your accessory game with the BOSS Leather Tote Bag—a true symbol of elegance and function."
           />
           <div className="container mx-auto my-16 bg-[#F1F1F1] p-4">

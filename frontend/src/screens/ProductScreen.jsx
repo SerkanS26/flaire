@@ -65,16 +65,16 @@ const ProductScreen = () => {
               </div>
               {/* col 2 */}
               <div className=" gap-8 p-4 flex flex-col justify-center md:w-4/12 ">
-                <h2 className="text-gray-700 text-lg font-semibold border-b-2 py-1 border-primary">
+                <h2 className="text-gray-700 text-lg font-semibold border-b-2 py-1 border-[#daa520]">
                   {product.name}
                 </h2>
-                <div className="border-b-2 py-1 border-primary">
+                <div className="border-b-2 py-1 border-[#daa520]">
                   <Rating
                     value={product.rating}
                     text={`${product.numReviews} reviews`}
                   />
                 </div>
-                <span className="text-gray-700 font-semibold border-b-2 py-1 border-primary">
+                <span className="text-gray-700 font-semibold border-b-2 py-1 border-[#daa520]">
                   Price: {product.price}€
                 </span>
                 <div>
@@ -84,13 +84,13 @@ const ProductScreen = () => {
               {/* col 3 */}
               <div className=" p-4 md:w-3/12">
                 <div className="flex flex-col gap-4">
-                  <div className=" flex justify-around w-full border border-primary p-2 rounded-md">
+                  <div className=" flex justify-around w-full border border-[#daa520] p-2 rounded-md">
                     <span className="text-gray-700 font-semibold">Price:</span>
                     <span className="text-gray-700 font-semibold">
                       {product.price}€
                     </span>
                   </div>
-                  <div className="flex justify-around w-full border border-primary p-2 rounded-md">
+                  <div className="flex justify-around w-full border border-[#daa520] p-2 rounded-md">
                     <span className="text-gray-700 font-semibold">Status:</span>
                     <span className="text-gray-700 font-semibold">
                       {product.countInStock > 0 ? "In Stock" : "Out of Stock"}
@@ -98,12 +98,12 @@ const ProductScreen = () => {
                   </div>
                   {/* QTY */}
                   {product.countInStock > 0 && (
-                    <div className="flex justify-around  w-full border border-primary p-2 rounded-md">
+                    <div className="flex justify-around  w-full border border-[#daa520] p-2 rounded-md">
                       <span className="text-gray-700 font-semibold">Qty:</span>
                       <select
                         value={qty}
                         onChange={(e) => setQty(Number(e.target.value))}
-                        className="w-24 px-2 border text-primary-dark bg-slate-200 border-primary rounded-md focus:outline-primary-dark  "
+                        className="w-24 px-2 border text-primary-dark bg-slate-200 border-[#daa520] rounded-md focus:outline-primary-dark  "
                       >
                         {[...Array(product.countInStock).keys()].map((x) => (
                           <option
@@ -120,7 +120,7 @@ const ProductScreen = () => {
 
                   <div>
                     <button
-                      className={`bg-primary text-white font-medium p-2 rounded-md w-full disabled:opacity-50 hover:${
+                      className={`bg-[#daa520] text-white font-medium p-2 rounded-md w-full disabled:opacity-50 hover:${
                         product.countInStock > 0 ? "bg-primary-dark" : ""
                       } transition-all`}
                       type="button"

@@ -11,20 +11,22 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 // slices
-import { useLoginMutation } from "../slices/usersApiSlice";
+import { useRegisterMutation } from "../slices/usersApiSlice";
 import { setCredentials } from "../slices/authSlice";
 
 // toast
 import { toast } from "react-toastify";
 
-const LoginScreen = () => {
+const RegisterScreen = () => {
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const [login, { isLoading }] = useLoginMutation();
+  const [register, { isLoading }] = useRegisterMutation();
 
   const { userInfo } = useSelector((state) => state.auth);
 
@@ -41,21 +43,38 @@ const LoginScreen = () => {
 
   const submitHandler = async (e) => {
     e.preventDefault();
-    try {
-      const res = await login({ email, password }).unwrap();
-      dispatch(setCredentials({ ...res }));
-      navigate(redirect);
-    } catch (error) {
-      toast.error(error?.data?.message || error.error);
+
+    if (password !== confirmPassword) {
+      toast.error("Passwords do not match");
+      return;
+    } else {
+      try {
+        const res = await register({ name, email, password }).unwrap();
+        dispatch(setCredentials({ ...res }));
+        navigate(redirect);
+      } catch (error) {
+        toast.error(error?.data?.message || error.error);
+      }
     }
   };
 
   return (
     <FormContainer>
       <h1 className="text-3xl md:text-4xl font-semibold text-gray-600 mb-10 ">
-        Sign In
+        Sign Up
       </h1>
       <form className="flex flex-col gap-4" onSubmit={submitHandler}>
+        <label className=" text-gray-600 " htmlFor="name">
+          Name
+        </label>
+        <input
+          className="border border-primary rounded-md p-2 focus:outline-primary-dark focus:bg-slate-100"
+          type="text"
+          placeholder="Enter Name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          id="name"
+        />
         <label className=" text-gray-600 " htmlFor="email">
           Email Address
         </label>
@@ -65,6 +84,7 @@ const LoginScreen = () => {
           placeholder="Enter Email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
+          id="email"
         />
 
         <label className=" text-gray-600 " htmlFor="password">
@@ -76,26 +96,39 @@ const LoginScreen = () => {
           placeholder="Enter Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+          id="password"
+        />
+
+        <label className=" text-gray-600 " htmlFor="ConfirmPassword">
+          Confirm Password
+        </label>
+        <input
+          className="border border-primary rounded-md p-2 focus:outline-primary-dark focus:bg-slate-100 "
+          type="password"
+          placeholder="Confirm Password"
+          value={confirmPassword}
+          onChange={(e) => setConfirmPassword(e.target.value)}
+          id="ConfirmPassword"
         />
 
         <button className="btn" type="submit" disabled={isLoading}>
-          Sign In
+          Register
         </button>
 
         {isLoading && <Spinner loading={isLoading} />}
       </form>
 
       <p className=" text-gray-600 mt-3">
-        New Customer?{" "}
+        Already have an account?{" "}
         <Link
           className="text-[#daa520] underline font-semibold hover:text-primary-dark"
-          to={redirect ? `/register?redirect=${redirect}` : "/register"}
+          to={redirect ? `/login?redirect=${redirect}` : "/login"}
         >
-          Create an account
+          Login
         </Link>
       </p>
     </FormContainer>
   );
 };
 
-export default LoginScreen;
+export default RegisterScreen;

@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 const Banner = () => {
   return (
     <section
@@ -6,7 +8,9 @@ const Banner = () => {
     "
     >
       <div className="header__content mx-auto text-center px-3 lg:text-left">
-        <h4 className="text-primary capitalize pt-4">up to 30% discount on </h4>
+        <h4 className="text-[#daa520] capitalize pt-4">
+          up to 30% discount on{" "}
+        </h4>
         <h1 className="text-6xl md:text-7xl">
           Discover the elegance of flaire
         </h1>
@@ -17,9 +21,9 @@ const Banner = () => {
           night out, or a weekend getaway. At Flaire, you&apos;ll find the
           perfect bag for every occasion.
         </p>
-        <a href="/shop" className="btn">
+        <Link to="/shop" className="btn">
           <button>Explore Now</button>
-        </a>
+        </Link>
       </div>
 
       <div className=" h-auto mx-auto w-96 mt-[340px]  lg:mt-0 lg:h-full lg:w-full relative ">
