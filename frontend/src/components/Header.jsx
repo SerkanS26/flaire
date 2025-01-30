@@ -64,7 +64,7 @@ const Header = () => {
             </Link>
           </div>
           {/* Logo */}
-          <div className="flex justify-center items-center p-2 font-playfair cursor-pointer">
+          <div className="flex justify-center items-center p-2  cursor-pointer">
             <Link
               to="/"
               className="text-3xl hover:text-[#daa520] font-extrabold"
