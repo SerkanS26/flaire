@@ -22,7 +22,7 @@ const ShippingScreen = () => {
   const [postalCode, setPostalCode] = useState(
     shippingAddress?.postalCode || ""
   );
-  const [country, setCountry] = useState(saveShippingAddress?.country || "");
+  const [country, setCountry] = useState(shippingAddress?.country || "");
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -81,7 +81,7 @@ const ShippingScreen = () => {
         <input
           className="border border-primary rounded-md p-2 focus:outline-primary-dark focus:bg-slate-100 "
           type="text"
-          placeholder="Confirm Password"
+          placeholder="Enter Country"
           value={country}
           onChange={(e) => setCountry(e.target.value)}
           id="country"
@@ -90,8 +90,6 @@ const ShippingScreen = () => {
         <button className="btn" type="submit">
           Continue
         </button>
-
-        {/* {isLoading && <Spinner loading={isLoading} />} */}
       </form>
     </FormContainer>
   );
