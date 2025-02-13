@@ -1,3 +1,4 @@
+import { Profiler } from "react";
 import { USERS_URL } from "../constants";
 
 import { apiSlice } from "./apiSlice";
@@ -24,8 +25,19 @@ export const usersApiSlice = apiSlice.injectEndpoints({
         method: "POST",
       }),
     }),
+    Profile: builder.mutation({
+      query: (data) => ({
+        url: `${USERS_URL}/profile`,
+        method: "PUT",
+        body: data,
+      }),
+    }),
   }),
 });
 
-export const { useLoginMutation, useLogoutMutation, useRegisterMutation } =
-  usersApiSlice;
+export const {
+  useLoginMutation,
+  useLogoutMutation,
+  useRegisterMutation,
+  useProfileMutation,
+} = usersApiSlice;

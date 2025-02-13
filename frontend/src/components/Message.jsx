@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 
-const Message = ({ variant, children }) => {
+const Message = ({ variant = "primary", children }) => {
   return (
     <div className={`alert alert-${variant} container mx-auto`}>{children}</div>
   );
@@ -22,8 +22,8 @@ Message.propTypes = {
 };
 
 //Define default props
-Message.defaultProps = {
-  variant: "primary",
-};
+// Message.defaultProps = {
+//   variant: "primary",
+// };
 
 export default Message;
