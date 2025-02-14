@@ -1,3 +1,5 @@
+// // DEVELOPMENT
+
 // import { defineConfig } from "vite";
 // import react from "@vitejs/plugin-react";
 // import path from "path";
@@ -15,16 +17,17 @@
 //     },
 //   },
 //   server: {
-//
 //     proxy: {
 //       "/api": {
-//         target: "http://localhost:500/api",
+//         target: "http://localhost:5000/api",
 //         changeOrigin: true,
 //         rewrite: (path) => path.replace(/^\/api/, ""),
 //       },
 //     },
 //   },
 // });
+
+//PRODUCTION
 
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
