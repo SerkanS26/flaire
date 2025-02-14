@@ -40,10 +40,7 @@ dotenv.config();
 export default defineConfig({
   base: "./",
   plugins: [react()],
-  build: {
-    minify: "terser", // Ensure minification is enabled
-    sourcemap: false, // Disable sourcemaps for production
-  },
+
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
