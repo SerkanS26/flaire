@@ -93,7 +93,7 @@ export default defineConfig(({ mode }) => {
       },
     },
     build: {
-      minify: "terser", // Ensure production optimizations
+      // minify: "terser", // Ensure production optimizations
       sourcemap: false,
     },
     define: {
