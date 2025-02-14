@@ -7,6 +7,7 @@ import Message from "../components/Message";
 
 // redux query
 import { useGetRandomProductsQuery } from "../slices/productApiSlice";
+import { Link } from "react-router-dom";
 
 const HomeScreen = () => {
   const { data: products, isLoading, error } = useGetRandomProductsQuery();
@@ -64,6 +65,12 @@ const HomeScreen = () => {
               {products.map((product) => (
                 <Product key={product._id} product={product} />
               ))}
+            </div>
+
+            <div className="text-center my-6">
+              <Link to="/shop" className="btn">
+                Shop Now
+              </Link>
             </div>
           </div>
           ;

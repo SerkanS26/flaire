@@ -114,6 +114,32 @@ const Header = () => {
                 </button>
               </Link>
             )}
+            {userInfo && userInfo.isAdmin && (
+              <DropdownMenu modal>
+                <DropdownMenuTrigger asChild>
+                  <button className="flex justify-center items-center gap-1 p-2 bg-orange-500 text-slate-50 rounded-md hover:bg-orange-400">
+                    DASHBOARD
+                  </button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="bg-[#f1f1f1] p-4 rounded-xl shadow-lg overflow-y-auto">
+                  <Link to="/admin/productlist">
+                    <DropdownMenuItem className="cursor-pointer hover:text-[#daa520] mb-1">
+                      Product List
+                    </DropdownMenuItem>
+                  </Link>
+                  <Link to="/admin/userlist">
+                    <DropdownMenuItem className="cursor-pointer hover:text-[#daa520] mb-1">
+                      User List
+                    </DropdownMenuItem>
+                  </Link>
+                  <Link to="/admin/orderlist">
+                    <DropdownMenuItem className="cursor-pointer hover:text-[#daa520] mb-1">
+                      Order List
+                    </DropdownMenuItem>
+                  </Link>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            )}
           </div>
 
           {/* Mobile Menu hamburger */}
@@ -209,6 +235,32 @@ const Header = () => {
                   <FaUser /> Sign In
                 </button>
               </Link>
+            )}
+            {userInfo && userInfo.isAdmin && (
+              <DropdownMenu modal>
+                <DropdownMenuTrigger asChild>
+                  <button className="flex justify-center items-center gap-2 p-2 bg-orange-500 text-slate-50 rounded-md hover:bg-orange-400">
+                    DASHBOARD
+                  </button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="bg-[#f1f1f1] p-4 rounded-xl shadow-lg overflow-y-auto">
+                  <Link to="/admin/productlist">
+                    <DropdownMenuItem className="cursor-pointer hover:text-[#daa520] mb-1">
+                      Product List
+                    </DropdownMenuItem>
+                  </Link>
+                  <Link to="/admin/userlist">
+                    <DropdownMenuItem className="cursor-pointer hover:text-[#daa520] mb-1">
+                      User List
+                    </DropdownMenuItem>
+                  </Link>
+                  <Link to="/admin/orderlist">
+                    <DropdownMenuItem className="cursor-pointer hover:text-[#daa520] mb-1">
+                      Order List
+                    </DropdownMenuItem>
+                  </Link>
+                </DropdownMenuContent>
+              </DropdownMenu>
             )}
           </div>
         </div>

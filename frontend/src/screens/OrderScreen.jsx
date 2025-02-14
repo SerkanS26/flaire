@@ -208,48 +208,47 @@ const OrderScreen = () => {
                         {errorPayOrder?.data?.message}
                       </Message>
                     )}
-                    {!userInfo.isAdmin && (
-                      <PayPalButtons
-                        createOrder={async (data, actions) => {
-                          const orderId = await actions.order.create({
-                            purchase_units: [
-                              {
-                                amount: {
-                                  value: order.totalPrice,
-                                },
+
+                    <PayPalButtons
+                      createOrder={async (data, actions) => {
+                        const orderId = await actions.order.create({
+                          purchase_units: [
+                            {
+                              amount: {
+                                value: order.totalPrice,
                               },
-                            ],
-                          });
-                          return orderId;
-                        }}
-                        onApprove={async (data, actions) => {
-                          const details = await actions.order.capture();
-                          try {
-                            await payOrder({ orderId, details }).unwrap();
-                            refetch();
-                            toast.success("Payment Order Successfully");
-                          } catch (err) {
-                            toast.error(err?.data?.message || err.message);
-                          }
-                        }}
-                        onError={(err) => {
-                          toast.error(err.message);
-                        }}
-                        onCancel={(err) => {
-                          toast.error(err.message);
-                        }}
-                        style={{
-                          layout: "vertical",
-                          color: "blue",
-                          shape: "rect",
-                          label: "pay",
-                          tagline: false,
-                          height: 40,
-                          size: "responsive",
-                          width: "100%",
-                        }}
-                      />
-                    )}
+                            },
+                          ],
+                        });
+                        return orderId;
+                      }}
+                      onApprove={async (data, actions) => {
+                        const details = await actions.order.capture();
+                        try {
+                          await payOrder({ orderId, details }).unwrap();
+                          refetch();
+                          toast.success("Payment Order Successfully");
+                        } catch (err) {
+                          toast.error(err?.data?.message || err.message);
+                        }
+                      }}
+                      onError={(err) => {
+                        toast.error(err.message);
+                      }}
+                      onCancel={(err) => {
+                        toast.error(err.message);
+                      }}
+                      style={{
+                        layout: "vertical",
+                        color: "blue",
+                        shape: "rect",
+                        label: "pay",
+                        tagline: false,
+                        height: 40,
+                        size: "responsive",
+                        width: "100%",
+                      }}
+                    />
                   </div>
                 )}
                 {/* MARK AS DELIVERED */}

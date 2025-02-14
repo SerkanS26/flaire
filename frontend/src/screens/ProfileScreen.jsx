@@ -1,6 +1,9 @@
 //React
 import { useEffect, useState } from "react";
 
+//react router dom
+import { Link } from "react-router-dom";
+
 //redux
 import { useDispatch, useSelector } from "react-redux";
 
@@ -31,7 +34,6 @@ import { setCredentials } from "@/slices/authSlice";
 //api call
 import { useProfileMutation } from "@/slices/usersApiSlice";
 import { useGetMyOrdersQuery } from "@/slices/ordersApiSlice";
-import { Link } from "react-router-dom";
 
 const ProfileScreen = () => {
   const [name, setName] = useState("");
@@ -60,18 +62,19 @@ const ProfileScreen = () => {
     if (password !== confirmPassword) {
       toast.error("Passwords do not match");
       return;
-    }
-    try {
-      const res = await updateProfile({
-        id: userInfo._id,
-        name,
-        email,
-        password,
-      }).unwrap();
-      dispatch(setCredentials(res));
-      toast.success("Profile updated successfully");
-    } catch (error) {
-      toast.error(error?.data?.message || error.error);
+    } else {
+      try {
+        const res = await updateProfile({
+          id: userInfo._id,
+          name,
+          email,
+          password,
+        }).unwrap();
+        dispatch(setCredentials(res));
+        toast.success("Profile updated successfully");
+      } catch (error) {
+        toast.error(error?.data?.message || error.error);
+      }
     }
   };
 
@@ -172,7 +175,7 @@ const ProfileScreen = () => {
                   <TableRow key={order._id}>
                     <TableCell className="font-medium">{order._id}</TableCell>
                     <TableCell>{order.createdAt.substring(0, 10)}</TableCell>
-                    <TableCell>${order.totalPrice}</TableCell>
+                    <TableCell>{order.totalPrice}€</TableCell>
                     <TableCell>
                       {order.isPaid ? (
                         order.paidAt.substring(0, 10)
