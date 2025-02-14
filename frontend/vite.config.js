@@ -28,7 +28,7 @@
 //   },
 // });
 
-import { defineConfig, loadEnv } from "vite";
+import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -38,10 +38,10 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 export default defineConfig(({ mode }) => {
-  const env = loadEnv(mode, process.cwd(), "");
+  // const env = loadEnv(mode, process.cwd(), "");
 
   const API_TARGET =
-    env.NODE_ENV === "development"
+    mode === "development"
       ? "http://localhost:5000/api"
       : "https://flaire.safrans.dev/api";
 
@@ -53,18 +53,24 @@ export default defineConfig(({ mode }) => {
       },
     },
     server: {
-      proxy: {
-        port: 3000,
-        host: "0.0.0.0",
-        "/api": {
-          target: API_TARGET,
-          changeOrigin: true,
-          rewrite: (path) => path.replace(/^\/api/, ""),
-        },
-      },
+      port: 3000,
+      host: "0.0.0.0",
+      proxy:
+        mode === "development"
+          ? {
+              "/api": {
+                target: API_TARGET,
+                changeOrigin: true,
+                rewrite: (path) => path.replace(/^\/api/, ""),
+              },
+            }
+          : undefined, // Disable proxy in production
     },
+    // define: {
+    //   "process.env.NODE_ENV": JSON.stringify(env.NODE_ENV),
+    // },
     define: {
-      "process.env.NODE_ENV": JSON.stringify(env.NODE_ENV),
+      "process.env.API_URL": JSON.stringify(API_TARGET),
     },
   };
 });
