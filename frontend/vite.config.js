@@ -71,8 +71,7 @@ const __dirname = dirname(__filename);
 
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), "");
-
-  const API_TARGET = env.VITE_API_URL || "http://localhost:5001";
+  const isProduction = mode === "production";
 
   return {
     plugins: [react()],
@@ -82,22 +81,28 @@ export default defineConfig(({ mode }) => {
       },
     },
     server: {
-      port: 3000, // Frontend port
-      host: "0.0.0.0", // Allow external access
+      port: 3000,
+      host: "0.0.0.0",
       proxy: {
         "/api": {
-          target: API_TARGET,
+          target: isProduction
+            ? "https://flaire.safrans.dev/api"
+            : "http://localhost:5000/api",
           changeOrigin: true,
-          rewrite: (path) => path.replace(/^\/api/, ""),
         },
       },
     },
     build: {
-      minify: false, // Ensure production optimizations
-      sourcemap: false,
+      sourcemap: false, // Remove source maps in production
+      minify: "terser", // Ensure tree-shaking and minification
+      rollupOptions: {
+        treeshake: true, // Remove unused code
+      },
     },
     define: {
-      "process.env.NODE_ENV": JSON.stringify(mode),
+      "process.env.NODE_ENV": JSON.stringify(
+        isProduction ? "production" : "development"
+      ),
     },
   };
 });
