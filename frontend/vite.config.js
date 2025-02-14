@@ -22,7 +22,7 @@ export default defineConfig({
         target:
           process.env.NODE_ENV === "development"
             ? "http://localhost:5000/api"
-            : "https://flaire.safrans.dev/api",
+            : "",
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, ""),
       },
