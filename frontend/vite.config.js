@@ -7,8 +7,6 @@ dotenv.config();
 
 // https://vite.dev/config/
 export default defineConfig({
-  port: 5000,
-  host: "0.0.0.0",
   base: "/",
   plugins: [react()],
   resolve: {
@@ -17,6 +15,8 @@ export default defineConfig({
     },
   },
   server: {
+    port: 5000,
+    host: "0.0.0.0",
     proxy: {
       "/api": {
         target:
