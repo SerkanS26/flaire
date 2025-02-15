@@ -71,7 +71,11 @@ const __dirname = dirname(__filename);
 
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), "");
-  const isProduction = mode === "production";
+
+  const API_TARGET =
+    env.NODE_ENV === "development"
+      ? "http://localhost:5000/api"
+      : "https://flaire.safrans.dev/api";
 
   return {
     plugins: [react()],
@@ -85,24 +89,25 @@ export default defineConfig(({ mode }) => {
       host: "0.0.0.0",
       proxy: {
         "/api": {
-          target: isProduction
-            ? "https://flaire.safrans.dev/api"
-            : "http://localhost:5000/api",
+          target: API_TARGET,
           changeOrigin: true,
+          rewrite: (path) => path.replace(/^\/api/, ""),
         },
       },
     },
     build: {
-      sourcemap: false, // Remove source maps in production
-      minify: "terser", // Ensure tree-shaking and minification
-      rollupOptions: {
-        treeshake: true, // Remove unused code
+      minify: "terser", // Explicitly use Terser
+      terserOptions: {
+        compress: {
+          drop_console: true, // Remove console logs
+          drop_debugger: true, // Remove debugger statements
+          dead_code: true, // Remove unused code
+        },
       },
+      sourcemap: false, // Disable source maps for production
     },
     define: {
-      "process.env.NODE_ENV": JSON.stringify(
-        isProduction ? "production" : "development"
-      ),
+      "process.env.NODE_ENV": JSON.stringify("production"), // Force production mode
     },
   };
 });
