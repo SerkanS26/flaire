@@ -47,7 +47,7 @@ const AboutScreen = () => {
           <div className="order-1 md:order-2 relative h-80 rounded-lg overflow-hidden lg:h-auto">
             <div className="absolute inset-0 bg-primary-dark/30"></div>
             <img
-              src="/crafting-image.jpg"
+              src="/images/crafting-image.jpg"
               alt="Crafting Process"
               className="w-full h-full object-cover"
             />
@@ -139,17 +139,17 @@ const AboutScreen = () => {
               {
                 name: "Emma Wilson",
                 position: "Lead Designer",
-                imgSrc: "/designer-1.jpg",
+                imgSrc: "/images/designer-1.jpg",
               },
               {
                 name: "Michael Chen",
                 position: "Sales Manager",
-                imgSrc: "/sales-manager.jpg",
+                imgSrc: "/images/sales-manager.jpg",
               },
               {
                 name: "Sophia Rodriguez",
                 position: "Customer Support Lead",
-                imgSrc: "/customer-support.jpg",
+                imgSrc: "/images/customer-support.jpg",
               },
             ].map((member, index) => (
               <div

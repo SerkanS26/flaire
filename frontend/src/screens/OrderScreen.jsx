@@ -22,11 +22,14 @@ import {
   useGetOrderDetailsQuery,
   usePayOrderMutation,
   useGetPaypalClientIdQuery,
+  useDeliverOrderMutation,
 } from "../slices/ordersApiSlice";
 
 const OrderScreen = () => {
+  // get order id from url
   const { id: orderId } = useParams();
 
+  // useGetOrderDetailsQuery
   const {
     data: order,
     isLoading,
@@ -34,17 +37,25 @@ const OrderScreen = () => {
     error,
   } = useGetOrderDetailsQuery(orderId);
 
+  // usePayOrderMutation
   const [payOrder, { isLoading: loadingPayOrder, error: errorPayOrder }] =
     usePayOrderMutation();
 
+  // useDeliverOrderMutation
+  const [deliverOrder, { isLoading: loadingDeliver }] =
+    useDeliverOrderMutation();
+
+  // usePayPalScriptReducer
   const [{ isPending }, paypalDispatch] = usePayPalScriptReducer();
 
+  // get paypal client id
   const {
     data: paypal,
     isLoading: loadingPayPal,
     error: errorPayPal,
   } = useGetPaypalClientIdQuery();
 
+  // get user info from redux store
   const { userInfo } = useSelector((state) => state.auth);
 
   useEffect(() => {
@@ -66,6 +77,17 @@ const OrderScreen = () => {
       }
     }
   }, [errorPayPal, loadingPayPal, paypal, order, paypalDispatch]);
+
+  // functions
+  const deliverOrderHandler = async () => {
+    try {
+      await deliverOrder(orderId);
+      refetch();
+      toast.success("Order delivered");
+    } catch (err) {
+      toast.error(err?.data?.message || err.error);
+    }
+  };
 
   return (
     <div>
@@ -252,6 +274,20 @@ const OrderScreen = () => {
                   </div>
                 )}
                 {/* MARK AS DELIVERED */}
+                {loadingDeliver && <Spinner loading={loadingDeliver} />}
+                {userInfo &&
+                  userInfo.isAdmin &&
+                  order.isPaid &&
+                  !order.isDelivered && (
+                    <div className="mt-4">
+                      <button
+                        className="btn btn-primary"
+                        onClick={deliverOrderHandler}
+                      >
+                        Mark As Delivered
+                      </button>
+                    </div>
+                  )}
               </div>
             </div>
           </div>
