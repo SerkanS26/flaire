@@ -25,7 +25,6 @@ import {
 const OrderListScreen = () => {
   const { data: orders, isLoading, error } = useGetOrdersQuery();
 
-  console.log(orders);
   return (
     <div className="container mx-auto px-3">
       <h1 className="text-2xl font-semibold text-gray-600 my-4">Order List</h1>

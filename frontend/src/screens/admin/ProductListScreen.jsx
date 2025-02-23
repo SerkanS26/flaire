@@ -23,19 +23,34 @@ import Spinner from "../../components/Spinner";
 import {
   useGetProductsQuery,
   useCreateProductMutation,
+  useDeleteProductMutation,
 } from "../../slices/productApiSlice";
 
 // toastify
 import { toast } from "react-toastify";
 
 const ProductListScreen = () => {
+  // get products
   const { data: products, isLoading, error, refetch } = useGetProductsQuery();
+
+  // create product
   const [createProduct, { isLoading: loadingCreateProduct }] =
     useCreateProductMutation();
+  // delete product
+  const [deleteProduct, { isLoading: loadingDeleteProduct }] =
+    useDeleteProductMutation();
 
   //function to delete product
-  const deleteHandler = (id) => {
-    console.log(`delete product ${id}`);
+  const deleteHandler = async (id) => {
+    if (window.confirm("Are you sure you want to delete this product?")) {
+      try {
+        await deleteProduct(id);
+        refetch();
+        toast.success("Product deleted successfully");
+      } catch (error) {
+        toast.error(error?.data?.message || error.error);
+      }
+    }
   };
 
   //function to create product
@@ -69,6 +84,7 @@ const ProductListScreen = () => {
         </button>
       </div>
       {loadingCreateProduct && <Spinner loading={loadingCreateProduct} />}
+      {loadingDeleteProduct && <Spinner loading={loadingDeleteProduct} />}
       {isLoading ? (
         <Spinner loading={isLoading} />
       ) : error ? (
