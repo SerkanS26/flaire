@@ -4,6 +4,7 @@ import HomeProductCard from "../components/HomeProductCard";
 import Product from "../components/Product";
 import Spinner from "../components/Spinner";
 import Message from "../components/Message";
+import Meta from "../components/Meta";
 
 // redux query
 import { useGetRandomProductsQuery } from "../slices/productApiSlice";
@@ -22,6 +23,7 @@ const HomeScreen = () => {
         </Message>
       ) : (
         <>
+          <Meta />
           <Banner />
           <div className="container mx-auto text-center my-16">
             <h4 className="capitalize text-4xl font-semibold text-gray-700">
