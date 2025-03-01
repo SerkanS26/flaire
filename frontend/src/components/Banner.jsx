@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { motion } from "motion/react";
 
 const Banner = () => {
   return (
@@ -8,31 +9,81 @@ const Banner = () => {
     "
     >
       <div className="header__content mx-auto text-center px-3 lg:text-left">
-        <h4 className="text-[#daa520] capitalize pt-4">
+        <motion.h4
+          className="text-[#daa520] capitalize pt-4"
+          initial={{
+            opacity: 0,
+          }}
+          animate={{
+            opacity: 1,
+          }}
+          transition={{
+            duration: 2,
+          }}
+        >
           up to 30% discount on{" "}
-        </h4>
-        <h1 className="text-6xl md:text-7xl">
+        </motion.h4>
+        <motion.h1
+          className="text-6xl md:text-7xl"
+          initial={{
+            opacity: 0,
+          }}
+          animate={{
+            opacity: 1,
+          }}
+          transition={{
+            duration: 2,
+          }}
+        >
           Discover the elegance of flaire
-        </h1>
-        <p>
+        </motion.h1>
+        <motion.p
+          initial={{
+            opacity: 0,
+          }}
+          animate={{
+            opacity: 1,
+          }}
+          transition={{
+            duration: 2,
+          }}
+        >
           Step into a world of style and sophistication with our exclusive
           collection of women&apos;s bags. Each piece is meticulously designed
           to complete your look, whether you&apos;re heading to the office, a
           night out, or a weekend getaway. At Flaire, you&apos;ll find the
           perfect bag for every occasion.
-        </p>
-        <Link to="/shop" className="btn">
-          <button>Explore Now</button>
-        </Link>
+        </motion.p>
+        <motion.div
+          initial={{
+            opacity: 0,
+          }}
+          animate={{
+            opacity: 1,
+          }}
+          transition={{
+            duration: 2,
+            delay: 1,
+          }}
+        >
+          <Link to="/shop" className="btn">
+            <button>Explore Now</button>
+          </Link>
+        </motion.div>
       </div>
 
-      <div className=" h-auto mx-auto w-96 mt-[340px]  lg:mt-0 lg:h-full lg:w-full relative ">
+      <motion.div
+        className=" h-auto mx-auto w-96 mt-[340px]  lg:mt-0 lg:h-full lg:w-full relative "
+        initial={{ x: "100%", opacity: 0 }}
+        animate={{ x: 0, opacity: 1 }}
+        transition={{ duration: 2 }}
+      >
         <img
           src="/images/header.png"
           alt="banner image"
           className=" absolute bottom-0 h-96  lg:h-[650px] lg:bottom-0 lg:right-0  object-cover"
         />
-      </div>
+      </motion.div>
     </section>
   );
 };

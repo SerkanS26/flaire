@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { motion } from "motion/react";
 
 const HomeProductCard = ({ bg, order, img, name, description, url }) => {
   return (
@@ -17,15 +18,56 @@ const HomeProductCard = ({ bg, order, img, name, description, url }) => {
       </div>
       {/* right */}
       <div className="flex flex-col justify-center items-center ">
-        <h2 className="font-semibold text-xl text-center text-[#555573] md:text-2xl lg:text-3xl">
+        <motion.h2
+          className="font-semibold text-xl text-center text-[#555573] md:text-2xl lg:text-3xl"
+          initial={{ y: "100%" }} // start from the bottom
+          variants={{
+            hidden: { y: "100%" },
+            visible: { y: 0 },
+          }}
+          animate={scrollY > 100 ? "visible" : "hidden"}
+          transition={{ duration: 1 }} // animation duration
+          viewport={{ once: true }} // animate only once when in view
+          whileInView="visible"
+        >
           {name}
-        </h2>
-        <p className=" text-base text-gray-600 mt-3  text-left md:text-lg">
+        </motion.h2>
+        <motion.p
+          className=" text-base text-gray-600 mt-3  text-left md:text-lg"
+          initial={{ y: "100%" }} // start from the bottom
+          variants={{
+            hidden: { y: "100%" },
+            visible: { y: 0 },
+          }}
+          animate={scrollY > 100 ? "visible" : "hidden"}
+          transition={{ duration: 1 }} // animation duration
+          viewport={{ once: true }} // animate only once when in view
+          whileInView="visible"
+        >
           {description}
-        </p>
-        <Link to={url} className="btn mt-4">
-          View Product
-        </Link>
+        </motion.p>
+
+        <motion.div
+          className="mt-6"
+          initial={{
+            opacity: 0,
+          }}
+          animate={{
+            opacity: 1,
+          }}
+          viewport={{
+            once: true,
+          }}
+          transition={{
+            duration: 2,
+            ease: "easeInOut",
+            delay: 2,
+          }}
+        >
+          <Link to={url} className="btn mt-4">
+            View Product
+          </Link>
+        </motion.div>
       </div>
     </div>
   );

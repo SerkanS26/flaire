@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { motion } from "motion/react";
 
 const AboutScreen = () => {
   return (
@@ -6,13 +7,35 @@ const AboutScreen = () => {
       {/* Hero Section */}
       <section className="bg-primary-light py-16">
         <div className="container mx-auto px-4">
-          <h1 className="text-4xl md:text-5xl font-bold text-primary-dark text-center mb-6">
+          <motion.h1
+            className="text-4xl md:text-5xl font-bold text-primary-dark text-center mb-6"
+            initial={{ y: "100%" }} // start from the bottom
+            variants={{
+              hidden: { y: "100%" },
+              visible: { y: 0 },
+            }}
+            animate={scrollY > 100 ? "visible" : "hidden"}
+            transition={{ duration: 1 }} // animation duration
+            viewport={{ once: true }} // animate only once when in view
+            whileInView="visible"
+          >
             Our Story
-          </h1>
-          <p className="text-lg  text-center max-w-3xl mx-auto text-gray-600">
+          </motion.h1>
+          <motion.p
+            className="text-lg  text-center max-w-3xl mx-auto text-gray-600"
+            initial={{ y: "100%" }} // start from the bottom
+            variants={{
+              hidden: { y: "100%" },
+              visible: { y: 0 },
+            }}
+            animate={scrollY > 100 ? "visible" : "hidden"}
+            transition={{ duration: 1.5 }} // animation duration
+            viewport={{ once: true }} // animate only once when in view
+            whileInView="visible"
+          >
             At Flaire, we believe in blending timeless elegance with modern
             functionality to create bags that empower women&apos;s daily lives.
-          </p>
+          </motion.p>
         </div>
       </section>
 
@@ -21,37 +44,62 @@ const AboutScreen = () => {
         {/* Mission Section */}
         <div className="grid md:grid-cols-2 gap-12 mb-20 items-center">
           <div className="order-2 md:order-1">
-            <h2 className="text-3xl font-bold text-text-dark mb-6">
+            <motion.h2
+              className="text-3xl font-bold text-text-dark mb-6"
+              initial={{ x: "-100%", opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              transition={{ duration: 2 }}
+            >
               Crafting Quality Since 2019
-            </h2>
-            <p className="text-text-light mb-6">
+            </motion.h2>
+            <motion.p
+              className="text-text-light mb-6"
+              initial={{ x: "-100%", opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              transition={{ duration: 2, delay: 0.5 }}
+            >
               Founded with a passion for artisanal craftsmanship, Flaire began
               as a small workshop dedicated to creating handcrafted bags that
               combine luxury with practicality. While we take pride in our
               original designs, we&apos;ve also partnered with world-renowned
               brands to bring you a curated selection of premium accessories.
-            </p>
-            <p className="text-text-light mb-6">
+            </motion.p>
+            <motion.p
+              className="text-text-light mb-6"
+              initial={{ x: "-100%", opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              transition={{ duration: 2, delay: 1 }}
+            >
               Our designers work tirelessly to ensure every stitch and detail in
               our exclusive collection meets the highest standards of quality
               and aesthetic appeal. Complementing our own creations, we
               carefully select luxury brands that share our commitment to
               excellence and innovative design.
-            </p>
-            <p className="text-text-light">
+            </motion.p>
+            <motion.p
+              className="text-text-light"
+              initial={{ x: "-100%", opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              transition={{ duration: 2, delay: 1.5 }}
+            >
               From our studio to your wardrobe, Flaire offers both our signature
               pieces and carefully chosen designer labels - all united by
               exceptional craftsmanship and timeless style.
-            </p>
+            </motion.p>
           </div>
-          <div className="order-1 md:order-2 relative h-80 rounded-lg overflow-hidden lg:h-auto">
+          <motion.div
+            className="order-1 md:order-2 relative h-80 rounded-lg overflow-hidden lg:h-auto"
+            initial={{ y: "100%", opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 2 }}
+          >
             <div className="absolute inset-0 bg-primary-dark/30"></div>
             <img
               src="/images/crafting-image.jpg"
               alt="Crafting Process"
               className="w-full h-full object-cover"
             />
-          </div>
+          </motion.div>
         </div>
 
         {/* Values Section */}
