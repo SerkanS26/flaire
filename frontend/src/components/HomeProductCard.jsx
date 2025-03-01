@@ -39,7 +39,7 @@ const HomeProductCard = ({ bg, order, img, name, description, url }) => {
             hidden: { y: "100%" },
             visible: { y: 0 },
           }}
-          animate={scrollY > 100 ? "visible" : "hidden"}
+          animate={scrollY > 0 ? "visible" : "hidden"}
           transition={{ duration: 1 }} // animation duration
           viewport={{ once: true }} // animate only once when in view
           whileInView="visible"
