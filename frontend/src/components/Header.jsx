@@ -19,6 +19,7 @@ import { useSelector, useDispatch } from "react-redux";
 //slices
 import { logOut } from "../slices/authSlice";
 import { useLogoutMutation } from "../slices/usersApiSlice";
+import { resetCart } from "@/slices/cartSlice";
 
 // toast
 import { toast } from "react-toastify";
@@ -38,6 +39,7 @@ const Header = () => {
     try {
       await logoutApiCall().unwrap();
       dispatch(logOut());
+      dispatch(resetCart());
       navigate("/login");
     } catch (error) {
       toast.error(error?.data?.message || error.error);

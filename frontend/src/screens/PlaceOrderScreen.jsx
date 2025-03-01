@@ -150,7 +150,11 @@ const PlaceOrderScreen = () => {
             <div>{cart.totalPrice} €</div>
           </div>
           {/* Group Item */}
-          <div>{error && <Message variant="danger">{error}</Message>}</div>
+          <div>
+            {error && (
+              <Message variant="danger">{error?.data?.message}</Message>
+            )}
+          </div>
           {/* Group Item */}
           <div>
             <button

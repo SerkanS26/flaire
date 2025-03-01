@@ -29,7 +29,6 @@ import {
 
 // toastify
 import { toast } from "react-toastify";
-import { useEffect } from "react";
 
 const ProductListScreen = () => {
   // params
