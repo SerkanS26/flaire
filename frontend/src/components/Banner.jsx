@@ -4,13 +4,13 @@ import { motion } from "motion/react";
 const Banner = () => {
   return (
     <section
-      className="container mx-auto bg-primary-light mt-4  min-h-[650px]
+      className="container mx-auto bg-primary-light  min-h-[600px]
         rounded-b-xl grid grid-cols-1 lg:grid-cols-2 gap-4 items-center
     "
     >
       <div className="header__content mx-auto text-center px-3 lg:text-left">
         <motion.h4
-          className="text-[#daa520] capitalize pt-4"
+          className="text-[#daa520] capitalize p-4 mt-2"
           initial={{
             opacity: 0,
           }}
@@ -21,10 +21,10 @@ const Banner = () => {
             duration: 2,
           }}
         >
-          up to 30% discount on{" "}
+          up to 30% discount on
         </motion.h4>
         <motion.h1
-          className="text-6xl md:text-7xl"
+          className="text-3xl p-4  md:text-7xl"
           initial={{
             opacity: 0,
           }}
@@ -38,6 +38,7 @@ const Banner = () => {
           Discover the elegance of flaire
         </motion.h1>
         <motion.p
+          className="p-4"
           initial={{
             opacity: 0,
           }}
@@ -66,9 +67,11 @@ const Banner = () => {
             delay: 1,
           }}
         >
-          <Link to="/shop" className="btn">
-            <button>Explore Now</button>
-          </Link>
+          <div className="text-center md:text-left md:ml-3 my-6">
+            <Link to="/shop" className="btn">
+              Explore Now
+            </Link>
+          </div>
         </motion.div>
       </div>
 

@@ -70,6 +70,7 @@ const Header = () => {
             <Link
               to="/"
               className="text-3xl hover:text-[#daa520] font-extrabold"
+              onClick={() => setIsOpen(false)}
             >
               Flaire<span className="text-[#daa520]">.</span>
             </Link>
@@ -176,7 +177,11 @@ const Header = () => {
             >
               About
             </Link>
-            <Link className=" hover:text-[#daa520]" to="/contact">
+            <Link
+              className=" hover:text-[#daa520]"
+              to="/contact"
+              onClick={() => setIsOpen((prev) => !prev)}
+            >
               Contact
             </Link>
           </div>
