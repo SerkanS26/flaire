@@ -45,7 +45,7 @@ const AboutScreen = () => {
         <div className="grid md:grid-cols-2 gap-12 mb-20 items-center">
           <div className="order-2 md:order-1">
             <motion.h2
-              className="text-3xl font-bold text-text-dark mb-6"
+              className=" text-lg md:text-3xl font-bold text-text-dark mb-6"
               initial={{ x: "-100%", opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
               transition={{ duration: 2 }}

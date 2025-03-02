@@ -9,7 +9,7 @@ const HomeProductCard = ({ bg, order, img, name, description, url }) => {
      `}
     >
       {/* left */}
-      <div className={`${order} md:order-first`}>
+      <div className={`order-first md:${order}`}>
         <img
           className={`object-cover lg:h-96 lg:w-96  h-52 w-52 mx-auto rounded-2xl`}
           src={img}
@@ -20,13 +20,13 @@ const HomeProductCard = ({ bg, order, img, name, description, url }) => {
       <div className="flex flex-col justify-center items-center ">
         <motion.h2
           className="font-semibold text-xl text-center text-[#555573] md:text-2xl lg:text-3xl"
-          initial={{ y: "100%" }} // start from the bottom
+          initial={{ x: "100%" }} // start from the bottom
           variants={{
-            hidden: { y: "100%" },
-            visible: { y: 0 },
+            hidden: { x: "100%" },
+            visible: { x: 0 },
           }}
           animate={scrollY > 100 ? "visible" : "hidden"}
-          transition={{ duration: 1 }} // animation duration
+          transition={{ duration: 1, ease: "easeInOut" }} // animation duration
           viewport={{ once: true }} // animate only once when in view
           whileInView="visible"
         >
@@ -34,13 +34,13 @@ const HomeProductCard = ({ bg, order, img, name, description, url }) => {
         </motion.h2>
         <motion.p
           className=" text-base text-gray-600 mt-3  text-left md:text-lg"
-          initial={{ y: "100%" }} // start from the bottom
+          initial={{ x: "100%" }} // start from the bottom
           variants={{
-            hidden: { y: "100%" },
-            visible: { y: 0 },
+            hidden: { x: "100%" },
+            visible: { x: 0 },
           }}
           animate={scrollY > 0 ? "visible" : "hidden"}
-          transition={{ duration: 1 }} // animation duration
+          transition={{ duration: 2, delay: 0.5, ease: "easeInOut" }} // animation duration
           viewport={{ once: true }} // animate only once when in view
           whileInView="visible"
         >
@@ -48,7 +48,7 @@ const HomeProductCard = ({ bg, order, img, name, description, url }) => {
         </motion.p>
 
         <motion.div
-          className="mt-6"
+          className="my-6"
           initial={{
             opacity: 0,
           }}
@@ -64,7 +64,7 @@ const HomeProductCard = ({ bg, order, img, name, description, url }) => {
             delay: 2,
           }}
         >
-          <Link to={url} className="btn mt-4">
+          <Link to={url} className="btn">
             View Product
           </Link>
         </motion.div>

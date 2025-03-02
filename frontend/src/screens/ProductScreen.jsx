@@ -182,7 +182,7 @@ const ProductScreen = () => {
           </div>
           <div className="my-4 container mx-auto w-1/2">
             <div>
-              <h2 className="text-2xl font-semibold text-gray-700 mb-4">
+              <h2 className="text-sm md:text-2xl font-semibold text-gray-700 mb-4">
                 Reviews
               </h2>
               {product.reviews.length === 0 && <Message>No Reviews</Message>}
@@ -201,7 +201,7 @@ const ProductScreen = () => {
                   </div>
                 ))}
                 <div>
-                  <h2 className="text-2xl font-semibold text-gray-700 my-6">
+                  <h2 className=" text-sm  md:text-2xl font-semibold text-gray-700 my-6">
                     Write a Customer Review
                   </h2>
                   {loadingProductReview && (
