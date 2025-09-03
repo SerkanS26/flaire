@@ -12,7 +12,8 @@
     "dev-linux": " npm run server & npm run client",
     "data:import": "node backend/seeder.js",
     "data:destroy": "node backend/seeder.js -d",
-    "build": "npm install && npm install --prefix frontend && npm run build --prefix frontend"
+    "build": "npm install && npm install --prefix frontend && npm run build --prefix frontend",
+    "start:production": "npx serve frontend/dist -s --port 3000 & node backend/server.js" 
   },
   "repository": {
     "type": "git",
