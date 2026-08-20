@@ -1,17 +1,19 @@
 import { motion } from "framer-motion";
+import { Link, useParams } from "react-router-dom";
+import { FaArrowLeft } from "react-icons/fa";
+import { useEffect } from "react";
 
 // Components
 import Product from "../components/Product";
 import Spinner from "../components/Spinner";
 import Message from "../components/Message";
 import Reveal from "../components/motion/Reveal";
+import Paginate from "../components/Paginate";
+import SearchBox from "@/components/SearchBox";
 
 // redux query
 import { useGetProductsQuery } from "../slices/productApiSlice";
 import { staggerContainer } from "../lib/motion";
-
-import SearchBox from "@/components/SearchBox";
-import { useEffect } from "react";
 
 const ShopScreen = () => {
   const { pageNumber, keyword } = useParams();
@@ -59,6 +61,10 @@ const ShopScreen = () => {
             </p>
           </Reveal>
 
+          <div className="mt-8">
+            <SearchBox />
+          </div>
+
           <motion.div
             variants={staggerContainer(0.08)}
             initial="hidden"
@@ -66,10 +72,18 @@ const ShopScreen = () => {
             viewport={{ once: true, amount: 0.05 }}
             className="mt-10 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3"
           >
-            {products?.map((product) => (
+            {data?.products?.map((product) => (
               <Product key={product._id} product={product} />
             ))}
           </motion.div>
+
+          <div className="mt-10">
+            <Paginate
+              pages={data?.pages}
+              page={data?.page}
+              keyword={keyword ? keyword : ""}
+            />
+          </div>
         </div>
       )}
     </>

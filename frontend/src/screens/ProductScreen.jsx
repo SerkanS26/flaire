@@ -19,6 +19,7 @@ import { useDispatch, useSelector } from "react-redux";
 // framer-motion
 import { motion } from "framer-motion";
 import { FaArrowLeft } from "react-icons/fa";
+import { toast } from "react-toastify";
 
 // Components
 import Rating from "../components/Rating";
@@ -143,7 +144,6 @@ const ProductScreen = () => {
                     >
                       {product.countInStock > 0 ? "In Stock" : "Out of Stock"}
                     </span>
-                    <p className="text-gray-600 my-4">{review.comment}</p>
                   </div>
 
                   {product.countInStock > 0 && (
@@ -177,7 +177,7 @@ const ProductScreen = () => {
               </Reveal>
             </div>
           </div>
-        </>
+        </div>
       )}
     </>
   );

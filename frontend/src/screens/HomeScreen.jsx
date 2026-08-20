@@ -7,6 +7,7 @@ import Product from "../components/Product";
 import Spinner from "../components/Spinner";
 import Message from "../components/Message";
 import Reveal from "../components/motion/Reveal";
+import Meta from "../components/Meta";
 
 // redux query
 import { useGetRandomProductsQuery } from "../slices/productApiSlice";
