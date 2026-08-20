@@ -1,5 +1,5 @@
 // react router dom
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 // icons
 import { FaEdit, FaTrash } from "react-icons/fa";
@@ -18,24 +18,44 @@ import {
 // components
 import Message from "../../components/Message";
 import Spinner from "../../components/Spinner";
+import Paginate from "../../components/Paginate";
 
 // api call
 import {
   useGetProductsQuery,
   useCreateProductMutation,
+  useDeleteProductMutation,
 } from "../../slices/productApiSlice";
 
 // toastify
 import { toast } from "react-toastify";
 
 const ProductListScreen = () => {
-  const { data: products, isLoading, error, refetch } = useGetProductsQuery();
+  // params
+  const { pageNumber } = useParams();
+  // get products
+  const { data, isLoading, error, refetch } = useGetProductsQuery({
+    pageNumber,
+  });
+
+  // create product
   const [createProduct, { isLoading: loadingCreateProduct }] =
     useCreateProductMutation();
+  // delete product
+  const [deleteProduct, { isLoading: loadingDeleteProduct }] =
+    useDeleteProductMutation();
 
   //function to delete product
-  const deleteHandler = (id) => {
-    console.log(`delete product ${id}`);
+  const deleteHandler = async (id) => {
+    if (window.confirm("Are you sure you want to delete this product?")) {
+      try {
+        await deleteProduct(id);
+        refetch();
+        toast.success("Product deleted successfully");
+      } catch (error) {
+        toast.error(error?.data?.message || error.error);
+      }
+    }
   };
 
   //function to create product
@@ -69,6 +89,7 @@ const ProductListScreen = () => {
         </button>
       </div>
       {loadingCreateProduct && <Spinner loading={loadingCreateProduct} />}
+      {loadingDeleteProduct && <Spinner loading={loadingDeleteProduct} />}
       {isLoading ? (
         <Spinner loading={isLoading} />
       ) : error ? (
@@ -76,7 +97,7 @@ const ProductListScreen = () => {
           {error?.data?.message || error?.error}
         </Message>
       ) : (
-        <Table>
+        <Table className="mb-10 mt-4">
           <TableCaption>A list of your products.</TableCaption>
           <TableHeader>
             <TableRow>
@@ -89,7 +110,7 @@ const ProductListScreen = () => {
             </TableRow>
           </TableHeader>
           <TableBody className="text-gray-500 w-full">
-            {products.map((product) => (
+            {data.products.map((product) => (
               <TableRow key={product._id}>
                 <TableCell>{product._id}</TableCell>
                 <TableCell>{product.name}</TableCell>
@@ -116,6 +137,7 @@ const ProductListScreen = () => {
           </TableBody>
         </Table>
       )}
+      <Paginate pages={data.pages} page={data.page} isAdmin={true} />
     </div>
   );
 };

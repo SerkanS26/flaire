@@ -26,6 +26,7 @@ const HomeScreen = () => {
         </Message>
       ) : (
         <>
+          <Meta />
           <Banner />
 
           <Reveal className="container mx-auto my-20 max-w-2xl px-4 text-center">

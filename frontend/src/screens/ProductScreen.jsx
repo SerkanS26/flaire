@@ -1,5 +1,8 @@
 // redux query
-import { useGetProductDetailsQuery } from "../slices/productApiSlice";
+import {
+  useGetProductDetailsQuery,
+  useCreateReviewMutation,
+} from "../slices/productApiSlice";
 
 //slices
 import { addToCart } from "../slices/cartSlice";
@@ -11,7 +14,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 
 // redux
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 // framer-motion
 import { motion } from "framer-motion";
@@ -31,15 +34,45 @@ const ProductScreen = () => {
 
   const [qty, setQty] = useState(1);
 
+  const [rating, setRating] = useState(0);
+
+  const [comment, setComment] = useState("");
+
+  // get product details
   const {
     data: product,
     isLoading,
     error,
+    refetch,
   } = useGetProductDetailsQuery(productId);
+
+  // create review
+  const [createReview, { isLoading: loadingProductReview }] =
+    useCreateReviewMutation();
+
+  // get user info
+  const { userInfo } = useSelector((state) => state.auth);
 
   const addToCartHandler = () => {
     dispatch(addToCart({ ...product, qty }));
     navigate("/cart");
+  };
+
+  const submitHandler = async (e) => {
+    e.preventDefault();
+    try {
+      await createReview({
+        productId,
+        rating,
+        comment,
+      }).unwrap();
+      refetch();
+      toast.success("Review submitted successfully");
+      setRating(0);
+      setComment("");
+    } catch (error) {
+      toast.error(error?.data?.message || error?.error);
+    }
   };
 
   return (
@@ -110,6 +143,7 @@ const ProductScreen = () => {
                     >
                       {product.countInStock > 0 ? "In Stock" : "Out of Stock"}
                     </span>
+                    <p className="text-gray-600 my-4">{review.comment}</p>
                   </div>
 
                   {product.countInStock > 0 && (
@@ -143,7 +177,7 @@ const ProductScreen = () => {
               </Reveal>
             </div>
           </div>
-        </div>
+        </>
       )}
     </>
   );

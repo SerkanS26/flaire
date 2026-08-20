@@ -10,11 +10,38 @@ import Reveal from "../components/motion/Reveal";
 import { useGetProductsQuery } from "../slices/productApiSlice";
 import { staggerContainer } from "../lib/motion";
 
+import SearchBox from "@/components/SearchBox";
+import { useEffect } from "react";
+
 const ShopScreen = () => {
-  const { data: products, isLoading, error } = useGetProductsQuery();
+  const { pageNumber, keyword } = useParams();
+  const { data, isLoading, error } = useGetProductsQuery({
+    keyword,
+    pageNumber,
+  });
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [keyword, pageNumber]);
 
   return (
     <>
+      {keyword && (
+        <div className="container mx-auto my-16 flex items-center justify-center gap-10 ">
+          <Link
+            to="/shop"
+            className="text-gray-500 font-semibold flex items-center justify-center gap-2 hover:text-gray-600 hover:underline"
+          >
+            <FaArrowLeft />
+            Go Back
+          </Link>
+          <h1 className="text-xl text-center text-gray-700 font-semibold my-4">
+            Search results for
+            <span className="text-blue-500 italic"> &quot;{keyword}&quot;</span>
+          </h1>
+        </div>
+      )}
+
       {isLoading ? (
         <Spinner loading={isLoading} />
       ) : error ? (

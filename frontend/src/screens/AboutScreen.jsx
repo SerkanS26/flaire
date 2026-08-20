@@ -40,8 +40,13 @@ const AboutScreen = () => {
               and aesthetic appeal. Complementing our own creations, we
               carefully select luxury brands that share our commitment to
               excellence and innovative design.
-            </p>
-            <p className="text-text-light">
+            </motion.p>
+            <motion.p
+              className="text-text-light"
+              initial={{ x: "-100%", opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              transition={{ duration: 2, delay: 1.5 }}
+            >
               From our studio to your wardrobe, Flaire offers both our signature
               pieces and carefully chosen designer labels - all united by
               exceptional craftsmanship and timeless style.
