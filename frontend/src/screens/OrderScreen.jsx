@@ -7,6 +7,7 @@ import { Link, useParams } from "react-router-dom";
 // components
 import Message from "../components/Message";
 import Spinner from "../components/Spinner";
+import Reveal from "../components/motion/Reveal";
 
 // toastify
 import { toast } from "react-toastify";
@@ -98,36 +99,39 @@ const OrderScreen = () => {
           {error?.data?.message || error?.error}
         </Message>
       ) : (
-        <div className="container mx-auto my-10 p-8 text-gray-600">
-          <div className="flex flex-col items-center gap-2  md:flex-row md:justify-start md:gap-10">
-            <h1 className="text-xl md:text-3xl font-semibold mb-2">Order</h1>
-            <p className="text-sm md:text-xl font-semibold text-gray-500 border-b-2 border-dotted">
+        <div className="container mx-auto my-10 p-4 text-ink-600 md:p-8">
+          <Reveal className="flex flex-col items-center gap-2 md:flex-row md:justify-start md:gap-6">
+            <h1 className="mb-2 font-display text-xl font-semibold text-ink-800 md:text-3xl">
+              Order
+            </h1>
+            <p className="border-b-2 border-dotted border-ink-200 text-sm font-semibold text-ink-500 md:text-xl">
               {order._id}
             </p>
-            <p className="text-xs">
+            <p className="text-xs text-ink-400">
               Placed on {order.createdAt.substring(0, 10)}
             </p>
-          </div>
+          </Reveal>
 
           {/* Container  */}
-          <div className="grid grid-cols-1 md:grid-cols-70/30 gap-4 my-10">
+          <div className="my-10 grid grid-cols-1 gap-6 md:grid-cols-70/30">
             {/* Column left */}
-            <div>
+            <Reveal delay={0.05}>
               {/* Item */}
-              <div className="mt-10 border-b-2 border-gray-200">
-                <h2 className="mb-2 font-semibold text-2xl">Shipping </h2>
+              <div className="rounded-2xl bg-white p-5 shadow-soft">
+                <h2 className="mb-3 text-2xl font-semibold text-ink-700">Shipping</h2>
                 <p className="mb-2">
-                  <strong>Name:</strong> {order.user.name}
+                  <strong className="text-ink-700">Name:</strong> {order.user.name}
                 </p>
 
                 <p className="mb-2">
-                  <strong>Address:</strong> {order.shippingAddress.address},{" "}
+                  <strong className="text-ink-700">Address:</strong>{" "}
+                  {order.shippingAddress.address},{" "}
                   {order.shippingAddress.city},{" "}
                   {order.shippingAddress.postalCode},{" "}
                   {order.shippingAddress.country}
                 </p>
-                <p className="mb-2">
-                  <strong>Email:</strong> {order.user.email}
+                <p className="mb-3">
+                  <strong className="text-ink-700">Email:</strong> {order.user.email}
                 </p>
 
                 {order.isDelivered ? (
@@ -140,14 +144,14 @@ const OrderScreen = () => {
               </div>
 
               {/* Item */}
-              <div className="mt-10 border-b-2 border-gray-200">
-                <h2 className="mb-2 font-semibold text-2xl">Payment Method</h2>
-                <p className="mb-2">
-                  <strong>Method:</strong> {order.paymentMethod}
+              <div className="mt-6 rounded-2xl bg-white p-5 shadow-soft">
+                <h2 className="mb-3 text-2xl font-semibold text-ink-700">Payment Method</h2>
+                <p className="mb-3">
+                  <strong className="text-ink-700">Method:</strong> {order.paymentMethod}
                 </p>
                 {order.isPaid ? (
                   <Message variant="success">
-                    <span className="font-semibold ">Paid on</span>{" "}
+                    <span className="font-semibold">Paid on</span>{" "}
                     {new Date(order.paidAt).toLocaleString()}
                   </Message>
                 ) : (
@@ -156,68 +160,67 @@ const OrderScreen = () => {
               </div>
 
               {/* Item */}
-              <div className="mt-10 border border-gray-200 p-4 shadow-md">
-                <h2 className="ml-2 mb-4 font-semibold text-2xl">
+              <div className="mt-6 rounded-2xl bg-white p-5 shadow-soft">
+                <h2 className="mb-4 text-2xl font-semibold text-ink-700">
                   Order Items
                 </h2>
                 {order.orderItems.map((item, index) => (
-                  <div key={index} className="flex items-center m-2 border-b-2">
+                  <div
+                    key={index}
+                    className="flex items-center gap-4 border-b border-ink-100 py-3 last:border-none"
+                  >
                     <img
                       src={item.image}
                       alt={item.name}
-                      className="w-16 h-16 object-cover rounded-md"
+                      className="h-16 w-16 rounded-xl object-cover"
                     />
-                    <div className="ml-4">
-                      <Link
-                        to={`/product/${item.product}`}
-                        className="underline"
-                      >
-                        {item.name}
-                      </Link>
-                    </div>
-                    <div className="flex ml-auto">
+                    <Link
+                      to={`/product/${item.product}`}
+                      className="text-ink-600 hover:text-gold-600"
+                    >
+                      {item.name}
+                    </Link>
+                    <div className="ml-auto text-ink-500">
                       {item.qty} x {item.price}€ = {item.qty * item.price} €
                     </div>
                   </div>
                 ))}
               </div>
-            </div>
+            </Reveal>
             {/* Column right */}
-            <div>
+            <Reveal delay={0.1}>
               {/* Item */}
-              <div className="mt-10 shadow-md p-4">
-                <h2 className="mb-4 font-semibold text-2xl">Order Summary</h2>
+              <div className="rounded-2xl bg-white p-5 shadow-soft">
+                <h2 className="mb-4 text-2xl font-semibold text-ink-700">Order Summary</h2>
                 {/* Item */}
-                <div className="mb-3 flex justify-between border-b-2 border-gray-100">
+                <div className="mb-3 flex justify-between border-b border-ink-100 pb-2">
                   <div>
-                    <strong className="text-gray-500 font-medium">
+                    <strong className="font-medium text-ink-500">
                       Items:
                     </strong>
                   </div>
                   <div> {order.itemsPrice}€ </div>
                 </div>
                 {/* Item */}
-                <div className="mb-3 flex justify-between border-b-2 border-gray-100">
+                <div className="mb-3 flex justify-between border-b border-ink-100 pb-2">
                   <div>
-                    <strong className="text-gray-500 font-medium">
+                    <strong className="font-medium text-ink-500">
                       Shipping:
                     </strong>
                   </div>
                   <div> {order.shippingPrice}€ </div>
                 </div>
                 {/* Item */}
-                <div className="mb-3 flex justify-between border-b-2 border-gray-100">
+                <div className="mb-3 flex justify-between border-b border-ink-100 pb-2">
                   <div>
-                    <strong className="text-gray-500 font-medium">Tax:</strong>
+                    <strong className="font-medium text-ink-500">Tax:</strong>
                   </div>
                   <div> {order.taxPrice}€ </div>
                 </div>
                 {/* Item */}
-                <div className="mb-3 flex justify-between border-b-2 border-gray-100">
+                <div className="mb-3 flex justify-between text-lg font-semibold text-ink-800">
                   <div>
-                    <strong className="text-gray-500 font-medium">
-                      Total:
-                    </strong>
+                    Total:
                   </div>
                   <div> {order.totalPrice}€ </div>
                 </div>
@@ -289,7 +292,7 @@ const OrderScreen = () => {
                     </div>
                   )}
               </div>
-            </div>
+            </Reveal>
           </div>
         </div>
       )}

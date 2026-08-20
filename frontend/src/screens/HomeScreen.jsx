@@ -1,15 +1,17 @@
+import { motion } from "framer-motion";
+
 // Components
 import Banner from "../components/Banner";
 import HomeProductCard from "../components/HomeProductCard";
 import Product from "../components/Product";
 import Spinner from "../components/Spinner";
 import Message from "../components/Message";
-import Meta from "../components/Meta";
-import { motion } from "motion/react";
+import Reveal from "../components/motion/Reveal";
 
 // redux query
 import { useGetRandomProductsQuery } from "../slices/productApiSlice";
 import { Link } from "react-router-dom";
+import { staggerContainer } from "../lib/motion";
 
 const HomeScreen = () => {
   const { data: products, isLoading, error } = useGetRandomProductsQuery();
@@ -26,43 +28,23 @@ const HomeScreen = () => {
         <>
           <Meta />
           <Banner />
-          <div className="container mx-auto text-center my-16">
-            <motion.h4
-              className="capitalize text-4xl font-semibold text-gray-700"
-              initial={{ y: "100%" }} // start from the bottom
-              variants={{
-                hidden: { y: "100%" },
-                visible: { y: 0 },
-              }}
-              animate={scrollY > 100 ? "visible" : "hidden"}
-              transition={{ duration: 1 }} // animation duration
-              viewport={{ once: true }} // animate only once when in view
-              whileInView="visible"
-            >
+
+          <Reveal className="container mx-auto my-20 max-w-2xl px-4 text-center">
+            <h4 className="font-display text-3xl font-semibold capitalize text-ink-800 md:text-4xl">
               Discover Your Next Favorite Bag
-            </motion.h4>
-            <motion.p
-              className="w-96 font-poppins text-center mx-auto mt-3 text-gray-600 md:w-[500px]"
-              initial={{ y: "100%" }} // start from the bottom
-              variants={{
-                hidden: { y: "100%" },
-                visible: { y: 0 },
-              }}
-              animate={scrollY > 100 ? "visible" : "hidden"}
-              transition={{ duration: 1 }} // animation duration
-              viewport={{ once: true }} // animate only once when in view
-              whileInView="visible"
-            >
+            </h4>
+            <p className="mx-auto mt-4 text-ink-500">
               Explore our curated selection of stylish and functional
               women&apos;s bags. From elegant totes to chic clutches, find the
               perfect accessory to elevate your look.
-            </motion.p>
-          </div>
+            </p>
+          </Reveal>
+
           <HomeProductCard
-            bg="bg-[#F1F1F1]"
+            bg="bg-[#F8F6F1]"
             img="/images/lacoste-blue.png"
             name="Lacoste Blue Leather Tote Bag"
-            url="/product/677c70839de18a73bf2a15ac"
+            url="/product/677b9df04c9b00e18689af69"
             description="Elevate your style with this elegant blue leather tote bag from
           Lacoste. Crafted from premium leather, this bag exudes sophistication
           and durability. The smooth texture and minimalist design make it both
@@ -74,42 +56,47 @@ const HomeScreen = () => {
           evening out, this bag is a statement piece that enhances any outfit."
           />
           <HomeProductCard
-            bg="bg-slate-50"
+            bg="bg-white"
             order="order-last"
             img="/images/boss-black.png"
             name="BOSS Leather Tote Bag"
-            url="/product/677c70839de18a73bf2a15ad"
+            url="/product/677b9df04c9b00e18689af6a"
             description="Make a bold statement with the sleek and elegant BOSS Leather Tote Bag. Crafted from premium leather, this black tote embodies sophistication and modern style. Its minimalistic design features the embossed BOSS branding on the front, adding a touch of luxury to any ensemble.The sturdy handles ensure comfort and durability, making it perfect for both professional and casual settings. Whether you're headed to the office, a meeting, or a day out, this bag is designed to complement your look with an air of confidence and refinement.Upgrade your accessory game with the BOSS Leather Tote Bag—a true symbol of elegance and function."
           />
-          <div className="container mx-auto my-16 bg-[#F1F1F1] p-4">
-            <motion.h1
-              className="text-center font-poppins my-6 text-[#555573] font-semibold text-4xl capitalize"
-              initial={{ y: "100%" }} // start from the bottom
-              variants={{
-                hidden: { y: "100%" },
-                visible: { y: 0 },
-              }}
-              animate={scrollY > 100 ? "visible" : "hidden"}
-              transition={{ duration: 1 }} // animation duration
-              viewport={{ once: true }} // animate only once when in view
-              whileInView="visible"
-            >
-              Current Favorites
-            </motion.h1>
 
-            <div className=" grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-              {products.map((product) => (
-                <Product key={product._id} product={product} />
-              ))}
-            </div>
+          <div className="mt-16 bg-[#F8F6F1] py-16">
+            <div className="container mx-auto px-4">
+              <Reveal className="text-center">
+                <h1 className="font-display text-3xl font-semibold capitalize text-ink-800 md:text-4xl">
+                  Current Favorites
+                </h1>
+              </Reveal>
 
-            <div className="text-center my-6">
-              <Link to="/shop" className="btn">
-                Shop Now
-              </Link>
+              <motion.div
+                variants={staggerContainer(0.1)}
+                initial="hidden"
+                whileInView="show"
+                viewport={{ once: true, amount: 0.1 }}
+                className="mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
+              >
+                {products.map((product) => (
+                  <Product key={product._id} product={product} />
+                ))}
+              </motion.div>
+
+              <div className="my-10 text-center">
+                <Link to="/shop">
+                  <motion.button
+                    whileHover={{ scale: 1.04 }}
+                    whileTap={{ scale: 0.97 }}
+                    className="btn"
+                  >
+                    Shop Now
+                  </motion.button>
+                </Link>
+              </div>
             </div>
           </div>
-          ;
         </>
       )}
     </>

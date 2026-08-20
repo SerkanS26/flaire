@@ -17,6 +17,12 @@ import { setCredentials } from "../slices/authSlice";
 // toast
 import { toast } from "react-toastify";
 
+// framer-motion
+import { motion } from "framer-motion";
+
+const inputClass =
+  "w-full rounded-xl border border-ink-100 bg-ink-50 p-3 text-ink-700 placeholder:text-ink-300 transition-colors focus:bg-white focus:outline-none focus:ring-2 focus:ring-gold-400";
+
 const RegisterScreen = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -60,26 +66,26 @@ const RegisterScreen = () => {
 
   return (
     <FormContainer>
-      <h1 className="text-3xl md:text-4xl font-semibold text-gray-600 mb-10 ">
+      <h1 className="mb-8 font-display text-3xl font-semibold text-ink-800">
         Sign Up
       </h1>
       <form className="flex flex-col gap-4" onSubmit={submitHandler}>
-        <label className=" text-gray-600 " htmlFor="name">
+        <label className="-mb-2 text-sm font-medium text-ink-500" htmlFor="name">
           Name
         </label>
         <input
-          className="border border-primary rounded-md p-2 focus:outline-primary-dark focus:bg-slate-100"
+          className={inputClass}
           type="text"
           placeholder="Enter Name"
           value={name}
           onChange={(e) => setName(e.target.value)}
           id="name"
         />
-        <label className=" text-gray-600 " htmlFor="email">
+        <label className="-mb-2 text-sm font-medium text-ink-500" htmlFor="email">
           Email Address
         </label>
         <input
-          className="border border-primary rounded-md p-2 focus:outline-primary-dark focus:bg-slate-100"
+          className={inputClass}
           type="email"
           placeholder="Enter Email"
           value={email}
@@ -87,11 +93,11 @@ const RegisterScreen = () => {
           id="email"
         />
 
-        <label className=" text-gray-600 " htmlFor="password">
+        <label className="-mb-2 text-sm font-medium text-ink-500" htmlFor="password">
           Password
         </label>
         <input
-          className="border border-primary rounded-md p-2 focus:outline-primary-dark focus:bg-slate-100 "
+          className={inputClass}
           type="password"
           placeholder="Enter Password"
           value={password}
@@ -99,11 +105,11 @@ const RegisterScreen = () => {
           id="password"
         />
 
-        <label className=" text-gray-600 " htmlFor="ConfirmPassword">
+        <label className="-mb-2 text-sm font-medium text-ink-500" htmlFor="ConfirmPassword">
           Confirm Password
         </label>
         <input
-          className="border border-primary rounded-md p-2 focus:outline-primary-dark focus:bg-slate-100 "
+          className={inputClass}
           type="password"
           placeholder="Confirm Password"
           value={confirmPassword}
@@ -111,17 +117,23 @@ const RegisterScreen = () => {
           id="ConfirmPassword"
         />
 
-        <button className="btn" type="submit" disabled={isLoading}>
+        <motion.button
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
+          className="btn mt-2"
+          type="submit"
+          disabled={isLoading}
+        >
           Register
-        </button>
+        </motion.button>
 
         {isLoading && <Spinner loading={isLoading} />}
       </form>
 
-      <p className=" text-gray-600 mt-3">
+      <p className="mt-6 text-center text-ink-500">
         Already have an account?{" "}
         <Link
-          className="text-[#daa520] underline font-semibold hover:text-primary-dark"
+          className="font-semibold text-gold-600 underline underline-offset-2 hover:text-gold-700"
           to={redirect ? `/login?redirect=${redirect}` : "/login"}
         >
           Login

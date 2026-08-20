@@ -13,6 +13,9 @@ import { useNavigate } from "react-router-dom";
 //slices
 import { savePaymentMethod } from "../slices/cartSlice";
 
+// framer-motion
+import { motion } from "framer-motion";
+
 const PaymentScreen = () => {
   const [paymentMethod, setPaymentMethod] = useState("PayPal");
 
@@ -37,12 +40,12 @@ const PaymentScreen = () => {
   return (
     <FormContainer>
       <CheckoutSteps step1 step2 step3 />
-      <h1 className="text-3xl md:text-4xl font-semibold text-gray-600 mb-10">
+      <h1 className="mb-8 font-display text-3xl font-semibold text-ink-800">
         Payment Method
       </h1>
       <form className="flex flex-col gap-4" onSubmit={submitHandler}>
         <label
-          className="text-gray-600 text-center mb-3"
+          className="mb-1 text-center text-sm font-medium text-ink-500"
           htmlFor="paymentMethod"
         >
           Select Method
@@ -52,16 +55,18 @@ const PaymentScreen = () => {
           id="paymentMethod"
           value={paymentMethod}
           onChange={(e) => setPaymentMethod(e.target.value)}
-          className="bg-gray-100 text-gray-700 p-3 rounded-lg"
+          className="rounded-xl border border-ink-100 bg-ink-50 p-3 text-ink-700 focus:outline-none focus:ring-2 focus:ring-gold-400"
         >
           <option value="PayPal">PayPal or Credit Card</option>
         </select>
-        <button
+        <motion.button
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
           type="submit"
-          className="bg-gray-600 text-white p-3 mt-3 rounded-lg"
+          className="btn mt-2"
         >
           Continue
-        </button>
+        </motion.button>
       </form>
     </FormContainer>
   );

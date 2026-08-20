@@ -4,8 +4,12 @@ import { Link, useNavigate } from "react-router-dom";
 // icons
 import { FaTrash } from "react-icons/fa";
 
+// framer-motion
+import { AnimatePresence, motion } from "framer-motion";
+
 // components
 import Message from "../components/Message";
+import Reveal from "../components/motion/Reveal";
 
 // redux
 import { useDispatch, useSelector } from "react-redux";
@@ -31,100 +35,102 @@ const CartScreen = () => {
     navigate("/login?redirect=/shipping");
   };
 
+  const subtotal = cartItems.reduce((acc, item) => acc + item.qty * item.price, 0);
+
   return (
-    <section className="container mx-auto mt-10 p-6 ">
+    <section className="container mx-auto mt-10 px-4 pb-16">
+      <Reveal>
+        <h1 className="mb-8 text-center font-display text-3xl font-semibold text-ink-800 md:text-4xl">
+          Shopping Cart
+        </h1>
+      </Reveal>
+
       <div className="grid grid-cols-1 gap-8 md:grid-cols-70/30">
         {/* column 1 */}
         <div>
-          <h1 className=" text-center text-3xl md:text-4xl font-semibold mb-6 text-gray-600">
-            Shopping Cart
-          </h1>
           {cartItems.length === 0 ? (
             <Message>
-              Your cart is empty{" "}
-              <Link
-                to="/"
-                className="underline ml-2
-              "
-              >
+              Your cart is empty
+              <Link to="/" className="ml-1 font-semibold underline">
                 Go Back
               </Link>
             </Message>
           ) : (
-            <div>
+            <AnimatePresence initial={false}>
               {cartItems.map((item) => (
-                <div
+                <motion.div
                   key={item._id}
-                  className="grid grid-cols-1 md:grid-cols-5 justify-center items-center gap-4 mb-4 text-center shadow-md p-4 rounded-3xl"
+                  layout
+                  initial={{ opacity: 0, y: 16 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, x: -40, transition: { duration: 0.25 } }}
+                  transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+                  className="mb-4 grid grid-cols-1 items-center gap-4 rounded-2xl bg-white p-4 text-center shadow-soft md:grid-cols-5"
                 >
                   <div className="mx-auto">
                     <img
                       src={item.image}
                       alt={item.name}
-                      className="rounded-3xl h-40 w-40 "
+                      className="h-32 w-32 rounded-xl object-cover md:h-40 md:w-40"
                     />
                   </div>
-                  <div className="underline text-gray-600">
+                  <div className="font-medium text-ink-700 hover:text-gold-600">
                     <Link to={`/product/${item._id}`}>{item.name}</Link>
                   </div>
-                  <div className="text-gray-600">{item.price} €</div>
-                  <div className="flex justify-around w-full p-2 rounded-md">
+                  <div className="font-semibold text-ink-800">{item.price} €</div>
+                  <div className="flex w-full justify-center">
                     <select
                       value={item.qty}
-                      onChange={(e) =>
-                        addToCartHandler(item, Number(e.target.value))
-                      }
-                      className="w-24 px-2 border text-primary-dark bg-slate-100 border-primary rounded-md focus:outline-primary-dark  "
+                      onChange={(e) => addToCartHandler(item, Number(e.target.value))}
+                      className="rounded-lg border border-ink-100 bg-ink-50 px-2 py-1.5 font-semibold text-ink-700 focus:outline-none focus:ring-2 focus:ring-gold-400"
                     >
                       {[...Array(item.countInStock).keys()].map((x) => (
-                        <option
-                          key={x + 1}
-                          value={x + 1}
-                          className="text-primary-dark font-semibold"
-                        >
+                        <option key={x + 1} value={x + 1}>
                           {x + 1}
                         </option>
                       ))}
                     </select>
                   </div>
-                  <div className="mx-auto ">
-                    <button
-                      className="text-red-600 bg-red-50 p-2 rounded-md hover:text-red-700 hover:scale-110 hover:duration-300 "
+                  <div className="mx-auto">
+                    <motion.button
+                      whileHover={{ scale: 1.1 }}
+                      whileTap={{ scale: 0.9 }}
+                      className="rounded-full bg-red-50 p-3 text-red-600 transition-colors hover:bg-red-100"
                       onClick={() => removeFromCartHandler(item._id)}
+                      aria-label="Remove item"
                     >
                       <FaTrash />
-                    </button>
+                    </motion.button>
                   </div>
-                </div>
+                </motion.div>
               ))}
-            </div>
+            </AnimatePresence>
           )}
         </div>
+
         {/* column 2 */}
-        <div className="shadow-md p-4 rounded-3xl h-min ">
+        <Reveal delay={0.1} className="h-min rounded-2xl bg-white p-6 shadow-soft">
           <div>
-            <h3 className=" text-center text-xl md:text-3xl font-semibold mb-6 text-gray-500 border-b-2">
-              Subtotal ({cartItems.reduce((acc, item) => acc + item.qty, 0)})
-              items
+            <h3 className="mb-4 border-b border-ink-100 pb-4 text-center text-xl font-semibold text-ink-700 md:text-2xl">
+              Subtotal ({cartItems.reduce((acc, item) => acc + item.qty, 0)}) items
             </h3>
-            <div className=" text-center text-gray-600">
-              {cartItems
-                .reduce((acc, item) => acc + item.qty * item.price, 0)
-                .toFixed(2)}{" "}
-              €
+            <div className="text-center text-2xl font-semibold text-gold-600">
+              {subtotal.toFixed(2)} €
             </div>
           </div>
-          <div className="mt-4 text-center">
-            <button
+          <div className="mt-6 text-center">
+            <motion.button
+              whileHover={{ scale: cartItems.length ? 1.03 : 1 }}
+              whileTap={{ scale: cartItems.length ? 0.97 : 1 }}
               type="button"
               onClick={checkoutHandler}
-              className="btn w-full"
+              className="btn w-full disabled:hover:translate-y-0"
               disabled={cartItems.length === 0}
             >
               Checkout
-            </button>
+            </motion.button>
           </div>
-        </div>
+        </Reveal>
       </div>
     </section>
   );

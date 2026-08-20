@@ -25,16 +25,11 @@ const UserEditScreen = () => {
   const [email, setEmail] = useState("");
   const [isAdmin, setIsAdmin] = useState(false);
 
-  // api call get product
-  const {
-    data: user,
-    refetch,
-    isLoading,
-    error,
-  } = useGetUserDetailsQuery(userId);
+  // api call get user
+  const { data: user, isLoading, error } = useGetUserDetailsQuery(userId);
 
-  // api call update product
-  const [updateUser, { isLoading: loadingUpdateUser, error: errorUpdateUser }] =
+  // api call update user
+  const [updateUser, { isLoading: loadingUpdate, error: errorUpdate }] =
     useUpdateUserMutation();
 
   useEffect(() => {
@@ -48,9 +43,8 @@ const UserEditScreen = () => {
   const submitHandler = async (e) => {
     e.preventDefault();
     try {
-      await updateUser({ userId, name, email, isAdmin });
-      refetch();
-      toast.success("User updated successfully");
+      await updateUser({ userId, name, email, isAdmin }).unwrap();
+      toast.success("User Updated!");
       navigate("/admin/userlist");
     } catch (error) {
       toast.error(error?.data?.message || error.error);
@@ -63,11 +57,10 @@ const UserEditScreen = () => {
         <button className="btn ml-4 mt-4">Go Back</button>
       </Link>
 
-      {loadingUpdateUser && <Spinner loading={loadingUpdateUser} />}
-
-      {errorUpdateUser && (
+      {loadingUpdate && <Spinner loading={loadingUpdate} />}
+      {errorUpdate && (
         <Message variant="danger">
-          {errorUpdateUser?.data?.message || errorUpdateUser?.error}
+          {errorUpdate?.data?.message || errorUpdate.error}
         </Message>
       )}
       {isLoading ? (
@@ -77,15 +70,13 @@ const UserEditScreen = () => {
           {error?.data?.message || error?.error}
         </Message>
       ) : (
-        <FormContainer className="">
+        <FormContainer>
           <h1 className="text-2xl font-semibold text-gray-600 mb-4">
             Edit User
           </h1>
-          <form className="text-gray-600 w-1/2" onSubmit={submitHandler}>
+          <form className="text-gray-600" onSubmit={submitHandler}>
             <div className="mb-4">
-              <label className="block text-gray-400 text-sm font-semibold mb-2">
-                Name
-              </label>
+              <label className="block text-sm font-semibold mb-2">Name</label>
               <input
                 type="text"
                 placeholder="Enter name"
@@ -95,7 +86,7 @@ const UserEditScreen = () => {
               />
             </div>
             <div className="mb-4">
-              <label className="block text-gray-400 text-sm font-semibold mb-2">
+              <label className="block text-sm font-semibold mb-2">
                 Email
               </label>
               <input
@@ -106,17 +97,18 @@ const UserEditScreen = () => {
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-600 leading-tight focus:outline-none focus:shadow-outline"
               />
             </div>
-            <div className="mb-4">
-              <label className="block text-gray-400 text-sm font-semibold mb-2">
-                Is Admin
-              </label>
+            <div className="mb-4 flex items-center gap-2">
               <input
                 type="checkbox"
+                id="isAdmin"
                 checked={isAdmin}
                 onChange={(e) => setIsAdmin(e.target.checked)}
+                className="h-4 w-4"
               />
+              <label htmlFor="isAdmin" className="text-sm font-semibold">
+                Is Admin
+              </label>
             </div>
-
             <div>
               <button type="submit" className="my-2 btn">
                 Update

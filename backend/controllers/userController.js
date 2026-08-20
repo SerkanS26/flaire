@@ -122,7 +122,7 @@ const updateUserProfile = asyncHandler(async (req, res) => {
 // @route   GET /api/users
 // @access  Private/Admin
 const getUsers = asyncHandler(async (req, res) => {
-  const users = await User.find({});
+  const users = await User.find({}).select("-password");
   res.status(200).json(users);
 });
 
@@ -149,8 +149,9 @@ const deleteUser = asyncHandler(async (req, res) => {
   if (user) {
     if (user.isAdmin) {
       res.status(400);
-      throw new Error("Can't delete admin user");
+      throw new Error("Cannot delete admin user");
     }
+
     await User.deleteOne({ _id: user._id });
     res.status(200).json({ message: "User deleted successfully" });
   } else {
@@ -168,7 +169,8 @@ const updateUser = asyncHandler(async (req, res) => {
   if (user) {
     user.name = req.body.name || user.name;
     user.email = req.body.email || user.email;
-    user.isAdmin = Boolean(req.body.isAdmin);
+    user.isAdmin =
+      req.body.isAdmin !== undefined ? Boolean(req.body.isAdmin) : user.isAdmin;
 
     const updatedUser = await user.save();
 
