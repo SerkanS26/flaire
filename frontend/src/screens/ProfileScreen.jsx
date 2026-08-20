@@ -10,6 +10,10 @@ import { useDispatch, useSelector } from "react-redux";
 //components
 import Message from "../components/Message";
 import Spinner from "../components/Spinner";
+import Reveal from "../components/motion/Reveal";
+
+//framer-motion
+import { motion } from "framer-motion";
 
 //icons
 import { FaTimes, FaEye } from "react-icons/fa";
@@ -78,31 +82,34 @@ const ProfileScreen = () => {
     }
   };
 
+  const inputClass =
+    "w-full rounded-xl border border-ink-100 bg-ink-50 p-3 text-ink-700 placeholder:text-ink-300 transition-colors focus:bg-white focus:outline-none focus:ring-2 focus:ring-gold-400";
+
   return (
-    <div className="container mx-auto ">
-      <div className="grid grid-cols-1 md:grid-cols-30/70 gap-10  my-10 px-8">
+    <div className="container mx-auto px-4 py-10">
+      <div className="grid grid-cols-1 gap-10 md:grid-cols-30/70">
         {/* Left */}
-        <div>
-          <h2 className="text-2xl font-semibold mb-4 text-gray-600">
+        <Reveal className="h-min rounded-2xl bg-white p-6 shadow-soft">
+          <h2 className="mb-4 font-display text-2xl font-semibold text-ink-800">
             User Profile
           </h2>
           <form className="flex flex-col gap-4" onSubmit={submitHandler}>
-            <label className=" text-gray-600 " htmlFor="name">
+            <label className="-mb-2 text-sm font-medium text-ink-500" htmlFor="name">
               Name
             </label>
             <input
-              className="border border-primary rounded-md p-2 focus:outline-primary-dark focus:bg-slate-100"
+              className={inputClass}
               type="text"
               placeholder="Enter Name"
               value={name}
               onChange={(e) => setName(e.target.value)}
               id="name"
             />
-            <label className=" text-gray-600 " htmlFor="email">
+            <label className="-mb-2 text-sm font-medium text-ink-500" htmlFor="email">
               Email Address
             </label>
             <input
-              className="border border-primary rounded-md p-2 focus:outline-primary-dark focus:bg-slate-100"
+              className={inputClass}
               type="email"
               placeholder="Enter Email"
               value={email}
@@ -110,11 +117,11 @@ const ProfileScreen = () => {
               id="email"
             />
 
-            <label className=" text-gray-600 " htmlFor="password">
+            <label className="-mb-2 text-sm font-medium text-ink-500" htmlFor="password">
               Password
             </label>
             <input
-              className="border border-primary rounded-md p-2 focus:outline-primary-dark focus:bg-slate-100 "
+              className={inputClass}
               type="password"
               placeholder="Enter Password"
               value={password}
@@ -122,11 +129,11 @@ const ProfileScreen = () => {
               id="password"
             />
 
-            <label className=" text-gray-600 " htmlFor="ConfirmPassword">
+            <label className="-mb-2 text-sm font-medium text-ink-500" htmlFor="ConfirmPassword">
               Confirm Password
             </label>
             <input
-              className="border border-primary rounded-md p-2 focus:outline-primary-dark focus:bg-slate-100 "
+              className={inputClass}
               type="password"
               placeholder="Confirm Password"
               value={confirmPassword}
@@ -134,20 +141,22 @@ const ProfileScreen = () => {
               id="ConfirmPassword"
             />
 
-            <button
-              className="btn"
+            <motion.button
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              className="btn mt-2"
               type="submit"
               disabled={loadingUpdateProfile}
             >
               Update
-            </button>
+            </motion.button>
 
             {loadingUpdateProfile && <Spinner loading={loadingUpdateProfile} />}
           </form>
-        </div>
+        </Reveal>
         {/* Right  */}
-        <div>
-          <h2 className="text-2xl font-semibold mb-4 text-gray-600">
+        <Reveal delay={0.1} className="rounded-2xl bg-white p-6 shadow-soft">
+          <h2 className="mb-4 font-display text-2xl font-semibold text-ink-800">
             My Orders
           </h2>
           {isLoading ? (
@@ -204,7 +213,7 @@ const ProfileScreen = () => {
               </TableBody>
             </Table>
           )}
-        </div>
+        </Reveal>
       </div>
     </div>
   );

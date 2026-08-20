@@ -4,10 +4,13 @@ import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 // react router
 import { Link, useNavigate } from "react-router-dom";
+// framer-motion
+import { motion } from "framer-motion";
 // components
 import CheckoutSteps from "@/components/CheckoutSteps";
 import Message from "@/components/Message";
 import Spinner from "@/components/Spinner";
+import Reveal from "@/components/motion/Reveal";
 // toast
 import { toast } from "react-toastify";
 // slices
@@ -50,54 +53,43 @@ const PlaceOrderScreen = () => {
   };
 
   return (
-    <div className="container mx-auto mt-36 p-4">
+    <div className="container mx-auto px-4 py-12">
       <CheckoutSteps step1 step2 step3 step4 />
-      <h1 className="text-3xl text-center md:text-4xl font-semibold text-gray-600 mb-10">
+      <h1 className="mb-10 text-center font-display text-3xl font-semibold text-ink-800 md:text-4xl">
         Place Order
       </h1>
-      <div className="grid grid-cols-1 md:grid-cols-70/30 gap-4 mt-16">
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-70/30">
         {/* Column 1 */}
-
-        {/* Group */}
-        <div className="shadow-lg rounded-lg p-4">
+        <Reveal className="rounded-2xl bg-white p-4 shadow-soft">
           {/* Group Item */}
-          <div className="p-4 border-b-2 border-gray-200">
-            <h2 className="text-2xl font-semibold text-gray-600 mb-2">
-              Shipping
-            </h2>
-            <p>
-              <strong>Address:</strong> {cart.shippingAddress.address},{" "}
+          <div className="border-b border-ink-100 p-4">
+            <h2 className="mb-2 text-xl font-semibold text-ink-700">Shipping</h2>
+            <p className="text-ink-500">
+              <strong className="text-ink-700">Address:</strong> {cart.shippingAddress.address},{" "}
               {cart.shippingAddress.city}, {cart.shippingAddress.postalCode},{" "}
               {cart.shippingAddress.country}
             </p>
           </div>
           {/* Group Item */}
-          <div className="p-4 border-b-2 border-gray-200 ">
-            <h2 className="text-2xl  font-semibold text-gray-600 mb-2">
-              Payment Method
-            </h2>
-            <p>
-              <strong>Method:</strong> {cart.paymentMethod}
+          <div className="border-b border-ink-100 p-4">
+            <h2 className="mb-2 text-xl font-semibold text-ink-700">Payment Method</h2>
+            <p className="text-ink-500">
+              <strong className="text-ink-700">Method:</strong> {cart.paymentMethod}
             </p>
           </div>
           {/* Group Item */}
           <div className="p-4">
-            <h2 className="text-2xl  font-semibold text-gray-600 mb-2">
-              Order Items
-            </h2>
+            <h2 className="mb-2 text-xl font-semibold text-ink-700">Order Items</h2>
             {cart.cartItems.length === 0 ? (
               <Message>Your cart is empty</Message>
             ) : (
               <div>
                 {cart.cartItems.map((item, index) => (
-                  <div
-                    key={index}
-                    className="mb-2 p-2 border-b-2 border-gray-200"
-                  >
-                    <div className="grid grid-cols-3 text-center">
+                  <div key={index} className="mb-2 border-b border-ink-100 p-2">
+                    <div className="grid grid-cols-3 items-center text-center">
                       <div>
                         <img
-                          className="rounded-md h-20 w-20 "
+                          className="mx-auto h-20 w-20 rounded-xl object-cover"
                           src={item.image}
                           alt={item.name}
                         />
@@ -105,12 +97,12 @@ const PlaceOrderScreen = () => {
                       <div>
                         <Link
                           to={`/product/${item._id || item.product}`}
-                          className="underline text-gray-600"
+                          className="text-ink-600 hover:text-gold-600"
                         >
                           {item.name}
                         </Link>
                       </div>
-                      <div className="text-gray-600">
+                      <div className="text-ink-600">
                         {item.qty} x {item.price} € = {item.qty * item.price} €
                       </div>
                     </div>
@@ -119,51 +111,44 @@ const PlaceOrderScreen = () => {
               </div>
             )}
           </div>
-        </div>
+        </Reveal>
 
         {/* Column 2 */}
-
-        {/* Group */}
-        <div className="shadow-md p-6  rounded-3xl text-gray-600 h-min">
-          {/* Group Item */}
-          <div className="border-b-2 border-gray-200 mb-4">
-            <h2 className=" text-2xl font-semibold">Order Summary</h2>
+        <Reveal delay={0.1} className="h-min rounded-2xl bg-white p-6 shadow-soft text-ink-600">
+          <div className="mb-4 border-b border-ink-100 pb-3">
+            <h2 className="text-xl font-semibold text-ink-700">Order Summary</h2>
           </div>
-          {/* Group Item */}
-          <div className="flex justify-between mb-2 border-b-2 border-gray-200">
+          <div className="mb-2 flex justify-between border-b border-ink-100 pb-2">
             <div>Items:</div>
             <div>{cart.itemsPrice} €</div>
           </div>
-          {/* Group Item */}
-          <div className="flex justify-between mb-2 border-b-2 border-gray-200">
+          <div className="mb-2 flex justify-between border-b border-ink-100 pb-2">
             <div>Shipping:</div>
             <div>{cart.shippingPrice} €</div>
           </div>
-          {/* Group Item */}
-          <div className="flex justify-between mb-2 border-b-2 border-gray-200">
+          <div className="mb-2 flex justify-between border-b border-ink-100 pb-2">
             <div>Tax:</div>
             <div>{cart.taxPrice} €</div>
           </div>
-          {/* Group Item */}
-          <div className="flex justify-between mb-4">
+          <div className="mb-4 flex justify-between text-lg font-semibold text-ink-800">
             <div>Total:</div>
             <div>{cart.totalPrice} €</div>
           </div>
-          {/* Group Item */}
-          <div>{error && <Message variant="danger">{error}</Message>}</div>
-          {/* Group Item */}
+          {error && <Message variant="danger">{error}</Message>}
           <div>
-            <button
+            <motion.button
+              whileHover={{ scale: cart.cartItems.length ? 1.02 : 1 }}
+              whileTap={{ scale: cart.cartItems.length ? 0.98 : 1 }}
               type="button"
-              className="btn"
+              className="btn w-full"
               disabled={cart.cartItems.length === 0}
               onClick={placeOrderHandler}
             >
               Place Order
-            </button>
+            </motion.button>
             {isLoading && <Spinner loading={isLoading} />}
           </div>
-        </div>
+        </Reveal>
       </div>
     </div>
   );

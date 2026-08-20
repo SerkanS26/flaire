@@ -1,9 +1,12 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 // react-router
 import { Link, useNavigate } from "react-router-dom";
 
 // icons
 import { FaUser, FaShoppingBag, FaAlignRight, FaTimes } from "react-icons/fa";
+
+// framer-motion
+import { AnimatePresence, motion } from "framer-motion";
 
 // Chadcn ui
 import {
@@ -23,16 +26,44 @@ import { useLogoutMutation } from "../slices/usersApiSlice";
 // toast
 import { toast } from "react-toastify";
 
+const navLinks = [
+  { to: "/shop", label: "Shop" },
+  { to: "/about", label: "About" },
+  { to: "/contact", label: "Contact" },
+];
+
+const NavLink = ({ to, children }) => (
+  <Link to={to} className="group relative py-1 transition-colors hover:text-gold-500">
+    {children}
+    <span className="absolute -bottom-0.5 left-0 h-[2px] w-0 bg-gold-500 transition-all duration-300 ease-out group-hover:w-full" />
+  </Link>
+);
+
+const menuContentClass =
+  "min-w-[10rem] bg-white/95 backdrop-blur-md p-2 rounded-2xl shadow-card border border-ink-100/60 overflow-y-auto";
+
+const menuItemClass =
+  "cursor-pointer rounded-xl px-3 py-2 text-sm text-ink-700 transition-colors hover:bg-gold-50 hover:text-gold-600 mb-0.5 last:mb-0";
+
 const Header = () => {
   const { cartItems } = useSelector((state) => state.cart);
-
   const { userInfo } = useSelector((state) => state.auth);
 
   const navigate = useNavigate();
-
   const dispatch = useDispatch();
 
   const [logoutApiCall] = useLogoutMutation();
+  const [isOpen, setIsOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  const cartCount = cartItems.reduce((acc, item) => acc + item.qty, 0);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 12);
+    onScroll();
+    window.addEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   const logoutHandler = async () => {
     try {
@@ -41,101 +72,102 @@ const Header = () => {
       navigate("/login");
     } catch (error) {
       toast.error(error?.data?.message || error.error);
-      console.log(error);
     }
   };
 
-  const [isOpen, setIsOpen] = useState(false);
-
   return (
-    <section className="">
-      <nav className="container mx-auto p-4 text-primary-dark">
-        <div className=" flex justify-between items-center max-lg:px-2">
+    <motion.header
+      initial={{ y: -40, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+      className={`sticky top-0 z-50 transition-all duration-300 ${
+        scrolled ? "glass shadow-soft" : "bg-transparent"
+      }`}
+    >
+      <nav className="container mx-auto px-4 text-ink-700">
+        <div className="flex items-center justify-between max-lg:px-2 py-3">
           {/* Left Menu */}
-          <div className=" max-lg:hidden flex justify-between items-center gap-6 text-xl font-poppins p-2 font-medium">
-            <Link className="hover:text-[#daa520]" to="/shop">
-              Shop
-            </Link>
-            <Link className=" hover:text-[#daa520]" to="/about">
-              About
-            </Link>
-            <Link className=" hover:text-[#daa520]" to="/contact">
-              Contact
-            </Link>
+          <div className="max-lg:hidden flex items-center gap-8 text-[0.95rem] font-medium">
+            {navLinks.map((link) => (
+              <NavLink key={link.to} to={link.to}>
+                {link.label}
+              </NavLink>
+            ))}
           </div>
+
           {/* Logo */}
-          <div className="flex justify-center items-center p-2  cursor-pointer">
-            <Link
-              to="/"
-              className="text-3xl hover:text-[#daa520] font-extrabold"
+          <Link to="/" className="flex items-center justify-center cursor-pointer group">
+            <motion.span
+              whileHover={{ scale: 1.04 }}
+              transition={{ type: "spring", stiffness: 300, damping: 15 }}
+              className="font-display text-3xl font-extrabold tracking-tight text-ink-800"
             >
-              Flaire<span className="text-[#daa520]">.</span>
-            </Link>
-          </div>
+              Flaire<span className="text-gold-500">.</span>
+            </motion.span>
+          </Link>
+
           {/* Right Menu */}
-          <div className="max-lg:hidden flex justify-center items-center p-2 gap-6 ">
-            <Link to="/cart" className=" ">
-              <button className=" relative flex justify-center items-center gap-1 p-2 hover:text-[#daa520]">
-                <FaShoppingBag className="mt-1 mr-2" />
-                {cartItems.length > 0 && (
-                  <span className="text-sm absolute top-0 right-0 bg-[#daa520] text-white w-5 h-5 flex justify-center items-center rounded-full">
-                    {cartItems.reduce((acc, item) => acc + item.qty, 0)}
-                  </span>
-                )}
+          <div className="max-lg:hidden flex items-center gap-6">
+            <Link to="/cart">
+              <button className="relative flex items-center gap-1 p-2 transition-colors hover:text-gold-500">
+                <FaShoppingBag className="text-lg" />
+                <AnimatePresence>
+                  {cartCount > 0 && (
+                    <motion.span
+                      key={cartCount}
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                      exit={{ scale: 0 }}
+                      transition={{ type: "spring", stiffness: 500, damping: 15 }}
+                      className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-gold-500 text-[0.7rem] font-semibold text-white shadow-glow"
+                    >
+                      {cartCount}
+                    </motion.span>
+                  )}
+                </AnimatePresence>
               </button>
             </Link>
 
             {userInfo ? (
               <DropdownMenu modal>
                 <DropdownMenuTrigger asChild>
-                  <button className="flex justify-center items-center gap-1 p-2 hover:text-[#daa520]">
+                  <button className="flex items-center gap-2 p-2 transition-colors hover:text-gold-500">
                     <FaUser /> {userInfo.name}
                   </button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent className="bg-[#f1f1f1] p-4 rounded-xl shadow-lg overflow-y-auto">
+                <DropdownMenuContent className={menuContentClass}>
                   <Link to="/profile">
-                    <DropdownMenuItem className="cursor-pointer hover:text-[#daa520] mb-1">
-                      Profile
-                    </DropdownMenuItem>
+                    <DropdownMenuItem className={menuItemClass}>Profile</DropdownMenuItem>
                   </Link>
-
-                  <DropdownMenuItem
-                    className="cursor-pointer hover:text-[#daa520] mb-1"
-                    onClick={logoutHandler}
-                  >
+                  <DropdownMenuItem className={menuItemClass} onClick={logoutHandler}>
                     Logout
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
             ) : (
-              <Link to="/login" className="">
-                <button className="flex justify-center items-center gap-1  p-2  hover:text-[#daa520]">
+              <Link to="/login">
+                <button className="flex items-center gap-2 p-2 transition-colors hover:text-gold-500">
                   <FaUser /> Sign In
                 </button>
               </Link>
             )}
+
             {userInfo && userInfo.isAdmin && (
               <DropdownMenu modal>
                 <DropdownMenuTrigger asChild>
-                  <button className="flex justify-center items-center gap-1 p-2 bg-orange-500 text-slate-50 rounded-md hover:bg-orange-400">
+                  <button className="rounded-full bg-ink-gradient px-4 py-2 text-xs font-semibold tracking-wide text-white shadow-soft transition-transform hover:scale-105">
                     DASHBOARD
                   </button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent className="bg-[#f1f1f1] p-4 rounded-xl shadow-lg overflow-y-auto">
+                <DropdownMenuContent className={menuContentClass}>
                   <Link to="/admin/productlist">
-                    <DropdownMenuItem className="cursor-pointer hover:text-[#daa520] mb-1">
-                      Product List
-                    </DropdownMenuItem>
+                    <DropdownMenuItem className={menuItemClass}>Product List</DropdownMenuItem>
                   </Link>
                   <Link to="/admin/userlist">
-                    <DropdownMenuItem className="cursor-pointer hover:text-[#daa520] mb-1">
-                      User List
-                    </DropdownMenuItem>
+                    <DropdownMenuItem className={menuItemClass}>User List</DropdownMenuItem>
                   </Link>
                   <Link to="/admin/orderlist">
-                    <DropdownMenuItem className="cursor-pointer hover:text-[#daa520] mb-1">
-                      Order List
-                    </DropdownMenuItem>
+                    <DropdownMenuItem className={menuItemClass}>Order List</DropdownMenuItem>
                   </Link>
                 </DropdownMenuContent>
               </DropdownMenu>
@@ -143,129 +175,122 @@ const Header = () => {
           </div>
 
           {/* Mobile Menu hamburger */}
-          <div className="lg:hidden flex justify-center items-center p-2">
+          <div className="lg:hidden flex items-center p-2">
             <button
               onClick={() => setIsOpen((prev) => !prev)}
-              className="block lg:hidden text-2xl"
+              className="block lg:hidden text-2xl text-ink-700"
+              aria-label="Toggle menu"
             >
-              {isOpen ? <FaTimes /> : <FaAlignRight />}
+              <AnimatePresence mode="wait" initial={false}>
+                <motion.span
+                  key={isOpen ? "close" : "open"}
+                  initial={{ rotate: -90, opacity: 0 }}
+                  animate={{ rotate: 0, opacity: 1 }}
+                  exit={{ rotate: 90, opacity: 0 }}
+                  transition={{ duration: 0.2 }}
+                  className="block"
+                >
+                  {isOpen ? <FaTimes /> : <FaAlignRight />}
+                </motion.span>
+              </AnimatePresence>
             </button>
           </div>
         </div>
 
         {/* Mobile Menu */}
-        <div
-          className={`${
-            isOpen ? "block" : "hidden"
-          } lg:hidden max-w-[1400px] mx-auto px-4 text-primary-dark`}
-        >
-          <div className="flex flex-col gap-4 text-xl p-2 mt-2 font-medium">
-            <Link
-              className=" hover:text-[#daa520]"
-              to="/shop"
-              onClick={() => setIsOpen((prev) => !prev)}
+        <AnimatePresence>
+          {isOpen && (
+            <motion.div
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: "auto", opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+              className="lg:hidden overflow-hidden"
             >
-              Shop
-            </Link>
-            <Link
-              className=" hover:text-[#daa520]"
-              to="/about"
-              onClick={() => setIsOpen((prev) => !prev)}
-            >
-              About
-            </Link>
-            <Link className=" hover:text-[#daa520]" to="/contact">
-              Contact
-            </Link>
-          </div>
-          <div className="flex flex-col gap-4 p-2 mt-2">
-            <Link to="/cart" className="">
-              <button
-                className="relative  hover:text-[#daa520]"
-                onClick={() => setIsOpen((prev) => !prev)}
-              >
-                <div
-                  className={`flex justify-center items-center ${
-                    cartItems > 0 ? "gap-3" : "gap-2"
-                  }  `}
-                >
-                  <FaShoppingBag />
-                  Cart
-                </div>
-                {cartItems.length > 0 && (
-                  <span className="text-sm absolute top-[-7px] left-3 bg-[#daa520] p-2 text-white w-4 h-4 flex justify-center items-center rounded-full">
-                    {cartItems.reduce((acc, item) => acc + item.qty, 0)}
-                  </span>
-                )}
-              </button>
-            </Link>
-            {userInfo ? (
-              <DropdownMenu modal>
-                <DropdownMenuTrigger asChild>
-                  <button className="flex items-center gap-2 hover:text-[#daa520]">
-                    <FaUser /> {userInfo.name}
-                  </button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent
-                  className="bg-[#f1f1f1] p-4 rounded-xl shadow-lg overflow-y-auto"
-                  align="start"
-                >
-                  <Link to="/profile">
-                    <DropdownMenuItem
-                      className="cursor-pointer hover:text-[#daa520] mb-1"
-                      onClick={() => setIsOpen((prev) => !prev)}
-                    >
-                      Profile
-                    </DropdownMenuItem>
-                  </Link>
-                  <DropdownMenuItem
-                    className="cursor-pointer hover:text-[#daa520] mb-1"
-                    onClick={logoutHandler}
+              <div className="flex flex-col gap-4 text-lg p-2 pb-4 mt-1 font-medium border-t border-ink-100/70 pt-4">
+                {navLinks.map((link) => (
+                  <Link
+                    key={link.to}
+                    className="hover:text-gold-500 transition-colors"
+                    to={link.to}
+                    onClick={() => setIsOpen(false)}
                   >
-                    Logout
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            ) : (
-              <Link to="/login" className="">
-                <button
-                  className="flex justify-center items-center gap-2 rounded-lg hover:text-[#daa520]"
-                  onClick={() => setIsOpen((prev) => !prev)}
-                >
-                  <FaUser /> Sign In
-                </button>
-              </Link>
-            )}
-            {userInfo && userInfo.isAdmin && (
-              <DropdownMenu modal>
-                <DropdownMenuTrigger asChild>
-                  <button className="flex justify-center items-center gap-2 p-2 bg-orange-500 text-slate-50 rounded-md hover:bg-orange-400">
-                    DASHBOARD
+                    {link.label}
+                  </Link>
+                ))}
+              </div>
+              <div className="flex flex-col gap-4 p-2 pb-4">
+                <Link to="/cart">
+                  <button
+                    className="relative flex items-center gap-2 hover:text-gold-500 transition-colors"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    <FaShoppingBag />
+                    Cart
+                    {cartCount > 0 && (
+                      <span className="flex h-5 w-5 items-center justify-center rounded-full bg-gold-500 text-xs font-semibold text-white">
+                        {cartCount}
+                      </span>
+                    )}
                   </button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent className="bg-[#f1f1f1] p-4 rounded-xl shadow-lg overflow-y-auto">
-                  <Link to="/admin/productlist">
-                    <DropdownMenuItem className="cursor-pointer hover:text-[#daa520] mb-1">
-                      Product List
-                    </DropdownMenuItem>
+                </Link>
+                {userInfo ? (
+                  <DropdownMenu modal>
+                    <DropdownMenuTrigger asChild>
+                      <button className="flex items-center gap-2 hover:text-gold-500 transition-colors">
+                        <FaUser /> {userInfo.name}
+                      </button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent className={menuContentClass} align="start">
+                      <Link to="/profile">
+                        <DropdownMenuItem
+                          className={menuItemClass}
+                          onClick={() => setIsOpen(false)}
+                        >
+                          Profile
+                        </DropdownMenuItem>
+                      </Link>
+                      <DropdownMenuItem className={menuItemClass} onClick={logoutHandler}>
+                        Logout
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                ) : (
+                  <Link to="/login">
+                    <button
+                      className="flex items-center gap-2 hover:text-gold-500 transition-colors"
+                      onClick={() => setIsOpen(false)}
+                    >
+                      <FaUser /> Sign In
+                    </button>
                   </Link>
-                  <Link to="/admin/userlist">
-                    <DropdownMenuItem className="cursor-pointer hover:text-[#daa520] mb-1">
-                      User List
-                    </DropdownMenuItem>
-                  </Link>
-                  <Link to="/admin/orderlist">
-                    <DropdownMenuItem className="cursor-pointer hover:text-[#daa520] mb-1">
-                      Order List
-                    </DropdownMenuItem>
-                  </Link>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            )}
-          </div>
-        </div>
+                )}
+                {userInfo && userInfo.isAdmin && (
+                  <DropdownMenu modal>
+                    <DropdownMenuTrigger asChild>
+                      <button className="w-fit rounded-full bg-ink-gradient px-4 py-2 text-xs font-semibold tracking-wide text-white shadow-soft">
+                        DASHBOARD
+                      </button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent className={menuContentClass}>
+                      <Link to="/admin/productlist">
+                        <DropdownMenuItem className={menuItemClass}>Product List</DropdownMenuItem>
+                      </Link>
+                      <Link to="/admin/userlist">
+                        <DropdownMenuItem className={menuItemClass}>User List</DropdownMenuItem>
+                      </Link>
+                      <Link to="/admin/orderlist">
+                        <DropdownMenuItem className={menuItemClass}>Order List</DropdownMenuItem>
+                      </Link>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                )}
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </nav>
-    </section>
+    </motion.header>
   );
 };
 
